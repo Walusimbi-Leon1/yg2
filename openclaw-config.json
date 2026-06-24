@@ -6,7 +6,9 @@
         "primary": "9router/oc/big-pickle"
       },
       "models": {
-        "9router/oc/big-pickle": {}
+        "9router/oc/big-pickle": {},
+        "big-pickel1/big-pickle": {},
+        "big-pickel2/big-pickle": {}
       }
     }
   },
@@ -55,6 +57,7 @@
     "lastTouchedAt": "2026-06-24T14:36:30.682Z"
   },
   "models": {
+    "mode": "merge",
     "providers": {
       "9router": {
         "baseUrl": "http://127.0.0.1:20128/v1",
