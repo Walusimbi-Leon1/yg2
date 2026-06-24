@@ -10,7 +10,8 @@
         "big-pickel1/big-pickle": {},
         "big-pickel2/big-pickle": {},
         "big-pickel3/big-pickle": {},
-        "big-pickel4/big-pickle": {}
+        "big-pickel4/big-pickle": {},
+        "big-pickel5/big-pickle": {}
       }
     }
   },
@@ -108,6 +109,17 @@
       "big-pickel4": {
         "baseUrl": "https://opencode.ai/zen/v1",
         "apiKey": "sk-qRUiDMguBWRoomfJUiwuvblId1tWZ7XsvUoENtLN7wJ7LW8j6AoEudpsmF2SFIcX",
+        "api": "openai-completions",
+        "models": [
+          {
+            "id": "big-pickle",
+            "name": "big-pickle"
+          }
+        ]
+      },
+      "big-pickel5": {
+        "baseUrl": "https://opencode.ai/zen/v1",
+        "apiKey": "sk-muQ9EG2TNv8WMHpBySkkFSMGcfkorqB7HWvGdYl119Hioa0TyP2mJIjoWImnNman",
         "api": "openai-completions",
         "models": [
           {
