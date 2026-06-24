@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Start 9-router (AI model router)
+SCRIPT_DIR="$(cd "$(dirname "$0")/.." && pwd)"
+echo "🌐 9-router: checking..."
+
+if pgrep -f "node.*9router" >/dev/null 2>&1; then
+  PID=$(pgrep -f "node.*9router" | head -1)
+  echo "  ✅ 9-router already running (PID $PID)"
+else
+  echo "  Starting 9-router..."
+  nohup 9router --port 20128 &>/tmp/9router.log &
+  sleep 2
+  if pgrep -f "node.*9router" >/dev/null 2>&1; then
+    echo "  ✅ 9-router started on port 20128"
+  else
+    echo "  ❌ 9-router failed to start - check /tmp/9router.log"
+  fi
+fi

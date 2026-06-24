@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Start OpenClaw Gateway
+SCRIPT_DIR="$(cd "$(dirname "$0")/.." && pwd)"
+echo "🤖 OpenClaw: checking..."
+
+if curl -sf http://127.0.0.1:18789/health >/dev/null 2>&1; then
+  echo "  ✅ OpenClaw Gateway already running"
+else
+  echo "  Starting OpenClaw Gateway..."
+  # Copy latest config if needed
+  if [ -f "$SCRIPT_DIR/openclaw-config.json" ]; then
+    cp "$SCRIPT_DIR/openclaw-config.json" ~/.openclaw/openclaw.json
+    echo "  Config synced from workspace"
+  fi
+  openclaw gateway start 2>/dev/null || openclaw gateway run --port 18789 --bind loopback &>/tmp/openclaw-gateway.log &
+  sleep 3
+  if curl -sf http://127.0.0.1:18789/health >/dev/null 2>&1; then
+    echo "  ✅ OpenClaw Gateway running on port 18789"
+  else
+    echo "  ⚠️  Gateway may still be starting... check /tmp/openclaw-gateway.log"
+  fi
+fi
