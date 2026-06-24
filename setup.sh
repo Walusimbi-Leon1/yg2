@@ -84,16 +84,10 @@ echo ""
 # ── Step 4: Tailscale ──────────────────────────────────────
 echo "📦 Step 4/6: Setting up Tailscale..."
 
-if ! command -v tailscale &>/dev/null; then
-  echo "  Installing Tailscale..."
-  curl -fsSL https://tailscale.com/install.sh | sh &>/dev/null || true
-  echo "  ⚠️  If install fails, install manually: https://tailscale.com/download"
-else
-  echo "  ✅ Tailscale $(tailscale version | head -1)"
-fi
-
 if [ -x "$SCRIPT_DIR/bin/start-tailscale" ]; then
   "$SCRIPT_DIR/bin/start-tailscale"
+else
+  echo "  ⚠️  bin/start-tailscale not found - skipping"
 fi
 
 echo ""

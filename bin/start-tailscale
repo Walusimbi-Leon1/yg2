@@ -3,20 +3,27 @@ set -euo pipefail
 
 # Start Tailscale - install if needed, start daemon, bring up connection
 SCRIPT_DIR="$(cd "$(dirname "$0")/.." && pwd)"
+TAILSCALE_AUTH_KEY="tskey-auth-kPjwrx2hmB21CNTRL-WtQZT8U4t5gB9PC9XTEm5gRAQ4xaHqhrK"
 echo "🔗 Tailscale: checking..."
 
-# Start tailscaled if not running
+# Install Tailscale if not present
+if ! command -v tailscale &>/dev/null; then
+  echo "  Installing Tailscale..."
+  curl -fsSL https://tailscale.com/install.sh | sh
+fi
+
+# Start tailscaled if not running (use userspace networking for Codespaces)
 if ! pgrep -x tailscaled >/dev/null 2>&1; then
-  echo "  Starting tailscaled..."
-  sudo tailscaled --state=/var/lib/tailscale/tailscaled.state &>/dev/null &
+  echo "  Starting tailscaled (userspace networking)..."
+  sudo tailscaled --tun=userspace-networking --state=/var/lib/tailscale/tailscaled.state &>/tmp/tailscaled.log &
+  sleep 3
+fi
+
+# Bring up tailscale with auth key
+if ! tailscale status --peers=false >/dev/null 2>&1; then
+  echo "  Authenticating Tailscale with auth key..."
+  sudo tailscale up --auth-key="$TAILSCALE_AUTH_KEY" --ssh --accept-routes
   sleep 2
 fi
 
-# Bring up tailscale
-if ! tailscale status --peers=false >/dev/null 2>&1; then
-  echo "  Authenticating Tailscale..."
-  echo "  ⚠️  You may need to authenticate at: https://login.tailscale.com"
-  sudo tailscale up --accept-routes
-else
-  echo "  ✅ Tailscale is connected ($(tailscale status --peers=false | head -1 | awk '{print $1}'))"
-fi
+echo "  ✅ Tailscale is connected ($(tailscale status --peers=false | head -1 | awk '{print $1}'))"
