@@ -1,0 +1,94 @@
+{
+  "agents": {
+    "defaults": {
+      "workspace": "/home/codespace/.openclaw/workspace",
+      "model": {
+        "primary": "9router/oc/big-pickle"
+      },
+      "models": {
+        "9router/oc/big-pickle": {}
+      }
+    }
+  },
+  "gateway": {
+    "mode": "local",
+    "auth": {
+      "mode": "token",
+      "token": "4296ce4ebcb1551d90b3ed234192c7421305fabfe36adfbe"
+    },
+    "port": 18789,
+    "bind": "loopback",
+    "tailscale": {
+      "mode": "off",
+      "resetOnExit": false
+    },
+    "controlUi": {
+      "allowInsecureAuth": true
+    },
+    "nodes": {
+      "denyCommands": [
+        "camera.snap",
+        "camera.clip",
+        "screen.record",
+        "contacts.add",
+        "calendar.add",
+        "reminders.add",
+        "sms.send",
+        "sms.search"
+      ]
+    }
+  },
+  "session": {
+    "dmScope": "per-channel-peer"
+  },
+  "tools": {
+    "profile": "coding"
+  },
+  "wizard": {
+    "lastRunAt": "2026-06-24T14:36:30.538Z",
+    "lastRunVersion": "2026.6.10",
+    "lastRunCommand": "onboard",
+    "lastRunMode": "local"
+  },
+  "meta": {
+    "lastTouchedVersion": "2026.6.10",
+    "lastTouchedAt": "2026-06-24T14:36:30.682Z"
+  },
+  "models": {
+    "providers": {
+      "9router": {
+        "baseUrl": "http://127.0.0.1:20128/v1",
+        "apiKey": "sk_9router",
+        "api": "openai-completions",
+        "models": [
+          {
+            "id": "oc/big-pickle",
+            "name": "big-pickle"
+          }
+        ]
+      },
+      "big-pickel1": {
+        "baseUrl": "https://opencode.ai/zen/v1",
+        "apiKey": "sk-YXzWm1J0r8Ab5lLc0Jng41Vs8ssEkr2p8LhLUwHSn3jZLg1uhpdMXEbo1jWEJgf4",
+        "api": "openai-completions",
+        "models": [
+          {
+            "id": "big-pickle",
+            "name": "big-pickle"
+          }
+        ]
+      },
+      "big-pickel2": {
+        "baseUrl": "https://opencode.ai/zen/v1",
+        "apiKey": "sk-zAZUyIEIWMD7PKNCEjbpxge6Q0Bu6sMyaWYcjx8fqlIRJaXmGG3n04nOg0Uu6o0d",
+        "api": "openai-completions",
+        "models": [
+          {
+            "id": "big-pickle",
+            "name": "big-pickle"
+          }
+        ]
+      }
+    }
+  }
+}
