@@ -76,6 +76,8 @@ browser/config/.config/chromium/Default/shared_proto_db/
 
 # ── Chromium runtime files (change every run, not user data) ──
 browser/config/.config/chromium/Default/.org.chromium.Chromium.*
+browser/config/.config/chromium/Default/Cookies
+browser/config/.config/chromium/Default/Preferences
 browser/config/.config/chromium/Default/LOG
 browser/config/.config/chromium/Default/LOG.old
 browser/config/.config/chromium/Default/LOCK
