@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+# bin/start-git-dashboard — Start the L4 Git Dashboard on port 3002
+set -euo pipefail
+
+SCRIPT_DIR="$(cd "$(dirname "$0")/.." && pwd)"
+PORT="${GIT_DASHBOARD_PORT:-3002}"
+
+# Check if already running
+if lsof -ti :"$PORT" >/dev/null 2>&1; then
+  echo "   ✅ Git Dashboard already running on http://127.0.0.1:$PORT"
+  exit 0
+fi
+
+echo "   🚀 Starting Git Dashboard on port $PORT..."
+nohup node "$SCRIPT_DIR/git-dashboard/server.js" > "$SCRIPT_DIR/git-dashboard/server.log" 2>&1 &
+echo "   PID: $!"
+echo "   📊 Dashboard: http://127.0.0.1:$PORT"

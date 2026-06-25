@@ -39,7 +39,13 @@ else
   echo ""
 fi
 
-# 4. OpenClaw Gateway
+# 4. Git Dashboard
+if [ -x "$SCRIPT_DIR/bin/start-git-dashboard" ]; then
+  "$SCRIPT_DIR/bin/start-git-dashboard"
+  echo ""
+fi
+
+# 5. OpenClaw Gateway
 if [ -x "$SCRIPT_DIR/bin/start-openclaw" ]; then
   "$SCRIPT_DIR/bin/start-openclaw"
   echo ""
@@ -52,4 +58,5 @@ echo "  📊 Dashboard: http://127.0.0.1:18789"
 echo "  🌐 9-router:  http://127.0.0.1:20128"
 echo "  🖥️  Browser UI: http://127.0.0.1:3001 (pass: changeme)"
 echo "  🔌 Browser CDP: http://127.0.0.1:9223"
+echo "  📝 Git Dashboard: http://127.0.0.1:3002"
 echo "=================================================="

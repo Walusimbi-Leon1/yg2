@@ -1,15 +1,110 @@
-# ── Browser caches (never sync these) ──
+# ── Browser caches & system files (never sync) ──
 browser/config/.cache/
-browser/config/.config/chromium/BrowserMetrics/
+browser/config/.XDG/
+browser/config/.bashrc
+browser/config/ssl/
+browser/config/.local/
+
+# ── Chromium auto-generated top-level dirs ──
+browser/config/.config/chromium/BrowserMetrics*
 browser/config/.config/chromium/Crash Reports/
 browser/config/.config/chromium/GPUPersistentCache/
 browser/config/.config/chromium/component_crx_cache/
 browser/config/.config/chromium/segmentation_platform/
+browser/config/.config/chromium/extensions_crx_cache/
+browser/config/.config/chromium/FileTypePolicies/
+browser/config/.config/chromium/FirstPartySetsPreloaded/
+browser/config/.config/chromium/GraphiteDawnCache/
+browser/config/.config/chromium/MEIPreload/
+browser/config/.config/chromium/OnDeviceHeadSuggestModel/
+browser/config/.config/chromium/OptimizationHints/
+browser/config/.config/chromium/PKIMetadata/
+browser/config/.config/chromium/PrivacySandboxAttestationsPreloaded/
+browser/config/.config/chromium/SSLErrorAssistant/
+browser/config/.config/chromium/SafetyTips/
+browser/config/.config/chromium/Subresource Filter/
+browser/config/.config/chromium/System Profile/
+browser/config/.config/chromium/TrustTokenKeyCommitments/
+browser/config/.config/chromium/WasmTtsEngine/
+browser/config/.config/chromium/WidevineCdm/
+browser/config/.config/chromium/ZxcvbnData/
+browser/config/.config/chromium/hyphen-data/
+browser/config/.config/chromium/first_party_sets.*
+browser/config/.config/chromium/Singleton*
+
+# ── Window manager / audio (runtime) ──
 browser/config/.config/labwc/
 browser/config/.config/pulse/
-browser/config/.XDG/
-browser/config/.local/share/
-browser/config/ssl/
+
+# ── Chromium Default profile caches & auto-gen dirs ──
+browser/config/.config/chromium/Default/ActorSafetyLists/
+browser/config/.config/chromium/Default/AmountExtractionHeuristicRegexes/
+browser/config/.config/chromium/Default/AutofillAiModelCache/
+browser/config/.config/chromium/Default/AutofillStrikeDatabase/
+browser/config/.config/chromium/Default/BudgetDatabase/
+browser/config/.config/chromium/Default/CaptchaProviders/
+browser/config/.config/chromium/Default/CertificateRevocation/
+browser/config/.config/chromium/Default/ClientCertificates/
+browser/config/.config/chromium/Default/Crowd Deny/
+browser/config/.config/chromium/Default/DawnGraphiteCache/
+browser/config/.config/chromium/Default/DawnWebGPUCache/
+browser/config/.config/chromium/Default/Download Service/
+browser/config/.config/chromium/Default/Extension State/
+browser/config/.config/chromium/Default/Feature Engagement Tracker/
+browser/config/.config/chromium/Default/GCM Store/
+browser/config/.config/chromium/Default/GPUCache/
+browser/config/.config/chromium/Default/optimization_guide_hint_cache_store/
+browser/config/.config/chromium/Default/parcel_tracking_db/
+browser/config/.config/chromium/Default/PersistentOriginTrials/
+browser/config/.config/chromium/Default/chrome_cart_db/
+browser/config/.config/chromium/Default/commerce_subscription_db/
+browser/config/.config/chromium/Default/discount_infos_db/
+browser/config/.config/chromium/Default/discounts_db/
+browser/config/.config/chromium/Default/Segmentation Platform/
+browser/config/.config/chromium/Default/Service Worker/
+browser/config/.config/chromium/Default/Session Storage/
+browser/config/.config/chromium/Default/Shared Dictionary/
+browser/config/.config/chromium/Default/Site Characteristics Database/
+browser/config/.config/chromium/Default/Sync Data/
+browser/config/.config/chromium/Default/VideoDecodeStats/
+browser/config/.config/chromium/Default/WebStorage/
+browser/config/.config/chromium/Default/IndexedDB/
+browser/config/.config/chromium/Default/Local Storage/
+browser/config/.config/chromium/Default/Sessions/
+browser/config/.config/chromium/Default/shared_proto_db/
+
+# ── Chromium runtime files (change every run, not user data) ──
+browser/config/.config/chromium/Default/.org.chromium.Chromium.*
+browser/config/.config/chromium/Default/LOG
+browser/config/.config/chromium/Default/LOG.old
+browser/config/.config/chromium/Default/LOCK
+browser/config/.config/chromium/Default/Singleton*
+browser/config/.config/chromium/Default/BookmarkMergedSurfaceOrdering
+browser/config/.config/chromium/Default/Cookies-journal
+browser/config/.config/chromium/Default/DIPS*
+browser/config/.config/chromium/Default/Favicons-journal
+browser/config/.config/chromium/Default/History-journal
+browser/config/.config/chromium/Default/MediaDeviceSalts*
+browser/config/.config/chromium/Default/PreferredApps
+browser/config/.config/chromium/Default/Reporting and NEL-journal
+browser/config/.config/chromium/Default/SCT Auditing Pending Reports
+browser/config/.config/chromium/Default/Safe Browsing Cookies*
+browser/config/.config/chromium/Default/SharedStorage*
+browser/config/.config/chromium/Default/Shortcuts*
+browser/config/.config/chromium/Default/Top Sites*
+browser/config/.config/chromium/Default/Trust Tokens*
+browser/config/.config/chromium/Default/Web Data-journal
+browser/config/.config/chromium/Default/Network Action Predictor*
+browser/config/.config/chromium/Default/Account Web Data*
+browser/config/.config/chromium/Default/Affiliation Database*
+browser/config/.config/chromium/Default/Login Data For Account*
+browser/config/.config/chromium/Default/ServerCertificate*
+browser/config/.config/chromium/Default/heavy_ad_intervention_opt_out*
+browser/config/.config/chromium/Default/engine_allowlist.bf
+browser/config/.config/chromium/Default/trusted_vault.pb
+browser/config/.config/chromium/Last Version
+browser/config/.config/chromium/Variations
+browser/config/.config/chromium/Dictionaries/
 
 # ── Node modules ──
 browser/node_modules/

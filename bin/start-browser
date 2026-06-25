@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # bin/start-browser — Start Docker Chromium with remote streaming + CDP
-# Streams on port 3001 (web UI), CDP on port 9223
+# Streams on port 3001 (web UI via KasmVNC), CDP on port 9223
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "$0")/.." && pwd)"
@@ -8,18 +8,13 @@ CONTAINER_NAME="l4-browser"
 BROWSER_PORT="${BROWSER_PORT:-3001}"
 CDP_PORT="${CDP_PORT:-9223}"
 VNC_PASSWORD="${VNC_PASSWORD:-changeme}"
+SOCAT_PORT=19223  # Internal socat port for CDP forwarding
 
 echo "🖥️  Remote Browser: checking..."
 
-# ── Helper: check if container is running ──
-is_running() {
-  docker ps --format '{{.Names}}' 2>/dev/null | grep -q "^$CONTAINER_NAME$"
-}
-
-# ── Helper: check if container exists (stopped) ──
-is_existing() {
-  docker ps -a --format '{{.Names}}' 2>/dev/null | grep -q "^$CONTAINER_NAME$"
-}
+# ── Helpers ──
+is_running() { docker ps --format '{{.Names}}' 2>/dev/null | grep -q "^$CONTAINER_NAME$"; }
+is_existing() { docker ps -a --format '{{.Names}}' 2>/dev/null | grep -q "^$CONTAINER_NAME$"; }
 
 # ── If already running, show status ──
 if is_running; then
@@ -35,33 +30,34 @@ if is_existing; then
   docker rm "$CONTAINER_NAME" >/dev/null 2>&1
 fi
 
-# ── Ensure the config directory exists with right perms ──
+# ── Ensure the config directory exists ──
 mkdir -p "$SCRIPT_DIR/browser/config"
 
-# ── Ensure chrome-remote-interface is installed ──
+# ── Install browser CLI deps if needed ──
 if [ ! -d "$SCRIPT_DIR/browser/node_modules" ]; then
   echo "   📦 Installing browser CLI dependencies..."
-  cd "$SCRIPT_DIR/browser"
-  npm install --silent 2>&1 | tail -1
-  cd "$SCRIPT_DIR"
+  cd "$SCRIPT_DIR/browser" && npm install --silent 2>&1 | tail -1 && cd "$SCRIPT_DIR"
 fi
 
 echo "   🚀 Starting browser container..."
 
-# ── Check if the linuxserver/chromium image exists ──
+# ── Pull image if needed ──
 if ! docker images --format '{{.Repository}}' 2>/dev/null | grep -q "linuxserver/chromium"; then
   echo "   📥 Pulling linuxserver/chromium image (first time)..."
   docker pull linuxserver/chromium:latest
 fi
 
 # ── Run the container ──
-docker run -d \
+# Chrome binds CDP to 127.0.0.1 by default inside the container.
+# We install socat and forward from 0.0.0.0:$SOCAT_PORT → 127.0.0.1:9222
+# Docker maps host $CDP_PORT → container $SOCAT_PORT
+CONTAINER_ID=$(docker run -d \
   --name "$CONTAINER_NAME" \
   --hostname "l4-browser" \
   --restart unless-stopped \
   --shm-size=2gb \
-  -p "$BROWSER_PORT:3000" \
-  -p "$CDP_PORT:9222" \
+  -p "$BROWSER_PORT:3001" \
+  -p "$CDP_PORT:$SOCAT_PORT" \
   -e TITLE="L4 Remote Browser" \
   -e CHROME_CLI="--remote-debugging-port=9222 --no-first-run --disable-features=TranslateUI --disable-translate --disable-fre --disable-search-engine-choice-screen" \
   -e DISPLAY_HEIGHT=720 \
@@ -70,13 +66,29 @@ docker run -d \
   -e PUID=1000 \
   -e PGID=1000 \
   -e LC_ALL=en_US.UTF-8 \
-  -e CUSTOM_PORT="$BROWSER_PORT" \
   -v "$SCRIPT_DIR/browser/config:/config:rw" \
-  linuxserver/chromium:latest 2>&1
+  linuxserver/chromium:latest)
 
 echo ""
-echo "   ⏳ Waiting for browser to be ready (CDP)..."
-for i in $(seq 1 30); do
+echo "   ⏳ Waiting for CDP port inside container..."
+
+# Wait for Chrome to start its CDP listener
+CDP_READY=false
+for i in $(seq 1 60); do
+  if docker exec "$CONTAINER_NAME" ss -tlnp 2>/dev/null | grep -q "127.0.0.1:9222"; then
+    CDP_READY=true
+    break
+  fi
+  sleep 2
+done
+
+if [ "$CDP_READY" = true ]; then
+  echo "   ✅ Chrome CDP detected. Installing socat for external access..."
+  docker exec "$CONTAINER_NAME" bash -c "apt-get update -qq && apt-get install -y -qq socat" >/dev/null 2>&1
+  docker exec -d "$CONTAINER_NAME" socat TCP-LISTEN:$SOCAT_PORT,fork,reuseaddr TCP:127.0.0.1:9222
+  sleep 1
+
+  # Verify CDP works through socat
   if curl -sf "http://127.0.0.1:$CDP_PORT/json/version" >/dev/null 2>&1; then
     echo "   ✅ Browser ready!"
     echo ""
@@ -84,13 +96,16 @@ for i in $(seq 1 30); do
     echo "   🌐 Web UI:  http://127.0.0.1:$BROWSER_PORT"
     echo "              (password: $VNC_PASSWORD)"
     echo "   🔌 CDP:     http://127.0.0.1:$CDP_PORT"
-    echo "   🔧 CLI:     cd $SCRIPT_DIR/browser && node browser.js status"
+    echo "   🔧 CLI:     cd browser && node browser.js status"
     echo "   ─────────────────────────────────────"
     exit 0
+  else
+    echo "   ⚠️  socat installed but CDP not responding yet"
   fi
-  sleep 2
-done
+else
+  echo "   ⚠️  Chrome CDP didn't start in time"
+fi
 
-echo "   ⚠️  Browser started but CDP not yet available. Check:"
-echo "      docker logs $CONTAINER_NAME"
-echo "   The web UI may still work at http://127.0.0.1:$BROWSER_PORT"
+echo ""
+echo "   Check: docker logs $CONTAINER_NAME"
+echo "   Web UI may still work at http://127.0.0.1:$BROWSER_PORT"

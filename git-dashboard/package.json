@@ -1,0 +1,7 @@
+{
+  "name": "l4-git-dashboard",
+  "version": "1.0.0",
+  "private": true,
+  "description": "L4 Git Dashboard — track and push workspace changes",
+  "type": "module"
+}
