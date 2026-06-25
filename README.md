@@ -1,6 +1,6 @@
 # 🐾 L4 Claw Pack — Portable AI Environment
 
-> Your entire AI environment: OpenClaw agent, 9-router, Tailscale, remote browser, and 5x Big Pickel fallback providers.
+> Your entire AI environment: OpenClaw agent, 9-router, Tailscale, remote browser, 5x Big Pickel fallback providers, and Git Dashboard.
 > **Codespaces are temporary. The `main` branch is your home.**
 
 ---
