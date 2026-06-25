@@ -16,11 +16,24 @@ echo "🖥️  Remote Browser: checking..."
 is_running() { docker ps --format '{{.Names}}' 2>/dev/null | grep -q "^$CONTAINER_NAME$"; }
 is_existing() { docker ps -a --format '{{.Names}}' 2>/dev/null | grep -q "^$CONTAINER_NAME$"; }
 
-# ── If already running, show status ──
+# ── If already running, check CDP health and fix socat if needed ──
 if is_running; then
-  echo "   ✅ Browser is already running"
+  echo "   ✅ Browser container is running"
+  # Check if CDP is accessible (socat may have died on restart)
+  if curl -sf "http://127.0.0.1:$CDP_PORT/json/version" >/dev/null 2>&1; then
+    echo "   🔌 CDP:     http://127.0.0.1:$CDP_PORT"
+  else
+    echo "   🔧 CDP not responding — restarting socat..."
+    docker exec "$CONTAINER_NAME" bash -c "apt-get install -y -qq socat" >/dev/null 2>&1
+    docker exec -d "$CONTAINER_NAME" socat TCP-LISTEN:$SOCAT_PORT,fork,reuseaddr TCP:127.0.0.1:9222 2>/dev/null || true
+    sleep 2
+    if curl -sf "http://127.0.0.1:$CDP_PORT/json/version" >/dev/null 2>&1; then
+      echo "   ✅ CDP restored"
+    else
+      echo "   ⚠️  Could not restore CDP. Run: docker logs $CONTAINER_NAME"
+    fi
+  fi
   echo "   🌐 Stream:  http://127.0.0.1:$BROWSER_PORT"
-  echo "   🔌 CDP:     http://127.0.0.1:$CDP_PORT"
   exit 0
 fi
 
