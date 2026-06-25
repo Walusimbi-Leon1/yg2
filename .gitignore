@@ -6,6 +6,7 @@ browser/config/ssl/
 browser/config/.local/
 
 # ── Chromium auto-generated top-level dirs ──
+browser/config/.config/chromium/CertificateRevocation/
 browser/config/.config/chromium/BrowserMetrics*
 browser/config/.config/chromium/Crash Reports/
 browser/config/.config/chromium/GPUPersistentCache/
@@ -105,6 +106,10 @@ browser/config/.config/chromium/Default/trusted_vault.pb
 browser/config/.config/chromium/Last Version
 browser/config/.config/chromium/Variations
 browser/config/.config/chromium/Dictionaries/
+browser/config/.config/chromium/Default/Search Logos/
+
+# ── Git Dashboard logs ──
+git-dashboard/server.log
 
 # ── Node modules ──
 browser/node_modules/
