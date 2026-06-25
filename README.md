@@ -1,6 +1,6 @@
 # 🐾 L4 Claw Pack — Portable AI Environment
 
-> Your entire AI environment: OpenClaw agent, 9-router, Tailscale, and 5x Big Pickel fallback providers.
+> Your entire AI environment: OpenClaw agent, 9-router, Tailscale, remote browser, and 5x Big Pickel fallback providers.
 > **Codespaces are temporary. The `main` branch is your home.**
 
 ---
@@ -13,6 +13,7 @@ A self-contained AI agent workspace that runs on GitHub Codespaces. Everything y
 
 - 🤖 **OpenClaw** — Your AI agent (L4), with memory, conversations, and identity
 - 🌐 **9-router** — AI model router (port 20128), currently routing to Big Pickel
+- 🖥️ **Remote Browser** — Docker Chromium with KasmVNC web streaming + CDP control
 - 🔗 **Tailscale** — Mesh network for secure access to all your nodes
 - 🥒 **Big Pickel x5** — 5 OpenCode Zen API accounts as fallback providers:
   - `big-pickel1/big-pickle` — Account #1
@@ -39,6 +40,7 @@ chmod +x setup.sh && ./setup.sh
 ./start.sh
 
 # 4. Expose ports in Codespaces Ports panel:
+#    - 3001  → Remote Browser (web UI, pass: changeme)
 #    - 18789 → OpenClaw Dashboard
 #    - 20128 → 9-router API
 ```
@@ -60,22 +62,23 @@ That's it. `start.sh` handles all three services:
 ## ⚡ Services Overview
 
 ```
-┌─────────────────────────────────────────────────────────┐
-│                     Your Codespace                      │
-│                                                         │
-│   ┌────────────────────┐   ┌─────────────────────────┐  │
-│   │    OpenClaw (L4)   │   │      9-router           │  │
-│   │    :18789          │◄──►│      :20128             │  │
-│   │    Big Pickel fall-│   │   (Big Pickel primary)   │  │
-│   │    backs 1-5       │   │                         │  │
-│   └────────┬───────────┘   └──────────┬──────────────┘  │
-│            │                          │                 │
-│            ▼                          ▼                 │
-│   ┌───────────────────────────────────────────────┐     │
-│   │                 Tailscale                      │     │
-│   │    (mesh network, SSH enabled, auth key set)   │     │
-│   └───────────────────────────────────────────────┘     │
-└─────────────────────────────────────────────────────────┘
+┌──────────────────────────────────────────────────────────────┐
+│                      Your Codespace                          │
+│                                                              │
+│   ┌──────────────┐  ┌──────────────┐  ┌──────────────────┐  │
+│   │   OpenClaw   │  │  9-router    │  │ Remote Browser   │  │
+│   │   :18789     │◄─►│  :20128      │  │ :3001 / :9223    │  │
+│   │   Big Pickel │  │  (Big Pickel) │  │ (KasmVNC + CDP)  │  │
+│   │   fallbacks  │  │              │  │                  │  │
+│   │   1-5        │  │              │  │                  │  │
+│   └──────┬───────┘  └──────┬───────┘  └────────┬─────────┘  │
+│          │                 │                    │            │
+│          ▼                 ▼                    ▼            │
+│   ┌────────────────────────────────────────────────────┐    │
+│   │                   Tailscale                         │    │
+│   │       (mesh network, SSH enabled, auth key set)     │    │
+│   └────────────────────────────────────────────────────┘    │
+└──────────────────────────────────────────────────────────────┘
 ```
 
 ### Ports
@@ -143,6 +146,9 @@ When you eventually move to a new Codespace:
 | Can't reach OpenClaw | Expose **port 18789** in Codespaces Ports panel |
 | 9-router offline | Check: `curl http://127.0.0.1:20128/v1/models` |
 | Tailscale won't connect | Run `./bin/start-tailscale` manually |
+| Remote browser won't start | Check Docker: `docker logs l4-browser`. Pull: `docker pull linuxserver/chromium:latest` |
+| Browser CDP unavailable | Browser starts in ~30s. Check: `curl http://127.0.0.1:9223/json/version` |
+| Browser stream blank | Expose **port 3001** in Codespaces Ports panel |
 | Need to switch Big Pickel provider | Change `model.primary` in Control UI or config |
 | `openclaw: command not found` | Run `npm install -g openclaw` |
 | Session lost after restart | Should persist — Gateway saves to disk |
@@ -155,11 +161,11 @@ When you eventually move to a new Codespace:
 - All API keys and auth tokens are stored in open config files intentionally
 - Tailscale encrypts all traffic end-to-end
 - CDP/DevTools ports should stay localhost-only
+- Browser web UI password: `changeme` (set via `VNC_PASSWORD` env)
 
 ---
 
 ## 🗺️ Roadmap (Coming Soon)
 
-- 🖥️ Remote Browser (Docker Chrome)
 - 💰 Money Printer
 - 📝 Auto-sync cron jobs

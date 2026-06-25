@@ -1,0 +1,19 @@
+# ── Browser caches (never sync these) ──
+browser/config/.cache/
+browser/config/.config/chromium/BrowserMetrics/
+browser/config/.config/chromium/Crash Reports/
+browser/config/.config/chromium/GPUPersistentCache/
+browser/config/.config/chromium/component_crx_cache/
+browser/config/.config/chromium/segmentation_platform/
+browser/config/.config/labwc/
+browser/config/.config/pulse/
+browser/config/.XDG/
+browser/config/.local/share/
+browser/config/ssl/
+
+# ── Node modules ──
+browser/node_modules/
+
+# ── OS files ──
+.DS_Store
+Thumbs.db
