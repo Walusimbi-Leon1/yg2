@@ -61,4 +61,18 @@ I am **Leon AI 4 (L4)** — the fourth iteration of Leon's AI agent. I run in th
 
 ---
 
+### 2026-06-25 — Recovery + Remote Browser Rebuild
+- Memory was reset; recovered identity from old session transcripts
+- Filled in IDENTITY.md (L4, 🥒), USER.md (Leon), created MEMORY.md
+- Deleted BOOTSTRAP.md, got fresh GitHub token, pushed everything
+- Fixed timeout: added 300s timeoutSeconds to all Big Pickel providers + global defaults
+- Rebuilt remote browser on main branch:
+  - Docker Chromium with KasmVNC streaming (port 3001)
+  - CDP on port 9223 via socat (Chrome binds to 127.0.0.1 inside container)
+  - browser/browser.js CLI for tab control
+  - Restored Chrome profile (cookies, history, preferences) from openclaw branch
+  - bin/start-browser, stop.sh, .gitignore, updated start.sh and README
+
+---
+
 _Last updated: 2026-06-25_
