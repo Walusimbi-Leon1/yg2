@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * L4 Git Dashboard — port 3002
+ * L4 Git Dashboard — port 3030
  *
  * Shows workspace vs repo status with commit+push controls.
  * Pure Node.js, zero dependencies.
@@ -11,7 +11,7 @@ import { execSync } from 'node:child_process';
 import { existsSync } from 'node:fs';
 import { URL } from 'node:url';
 
-const PORT = parseInt(process.env.GIT_DASHBOARD_PORT || '3002', 10);
+const PORT = parseInt(process.env.GIT_DASHBOARD_PORT || '3030', 10);
 const WORKSPACE = process.env.GIT_DASHBOARD_WORKSPACE ||
   (() => { try { return execSync('git rev-parse --show-toplevel 2>/dev/null').toString().trim(); } catch { return process.cwd(); } })();
 
