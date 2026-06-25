@@ -61,7 +61,7 @@ I am **Leon AI 4 (L4)** — the fourth iteration of Leon's AI agent. I run in th
 
 ---
 
-### 2026-06-25 — Recovery + Remote Browser Rebuild
+### 2026-06-25 — Recovery + Remote Browser + Git Dashboard
 - Memory was reset; recovered identity from old session transcripts
 - Filled in IDENTITY.md (L4, 🥒), USER.md (Leon), created MEMORY.md
 - Deleted BOOTSTRAP.md, got fresh GitHub token, pushed everything
@@ -72,6 +72,11 @@ I am **Leon AI 4 (L4)** — the fourth iteration of Leon's AI agent. I run in th
   - browser/browser.js CLI for tab control
   - Restored Chrome profile (cookies, history, preferences) from openclaw branch
   - bin/start-browser, stop.sh, .gitignore, updated start.sh and README
+- Built Git Dashboard (port 3030):
+  - Zero-dependency Node.js server, shows workspace vs repo status
+  - Commit & Push button — stages all, commits with custom message, pushes to main
+  - Auto-refreshes every 30s
+  - bin/start-git-dashboard, integrated into start.sh
 
 ---
 
