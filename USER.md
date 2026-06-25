@@ -1,21 +1,25 @@
 # USER.md - About Your Human
 
-_Learn about the person you're helping. Update this as you go._
-
-- **Name:**
-- **What to call them:**
-- **Pronouns:** _(optional)_
+- **Name:** Leon Walusimbi
+- **What to call them:** Leon
+- **Pronouns:** —
 - **Timezone:**
 - **Notes:**
+  - Goes by Leon
+  - Likely based in Africa (Uganda/EAST AFRICA timezone from context)
+  - Runs the L4 Claw Pack on GitHub Codespaces
+  - Uses opencode.ai for Big Pickel model access
+  - Has 5 Gmail accounts each with their own Big Pickel API key
+  - Private repo user — wants everything open and transparent in the repo
 
 ## Context
 
-_(What do they care about? What projects are they working on? What annoys them? What makes them laugh? Build this over time.)_
+- **Primary project:** Building L4 (Leon AI 4) — a portable AI agent environment using OpenClaw + 9-router + Tailscale + Big Pickel models
+- **Repo:** https://github.com/Walusimbi-Leon1/Codespace-3
+- **Philosophy:** Push everything to the repo. Codespaces are temporary; the repo is permanent. No secrets hidden.
+- **Vibe:** Direct, no-nonsense, wants things done right and pushed. Appreciates when I figure things out without needing hand-holding.
+- **What annoys him:** Having to repeat himself, truncated/hidden data, losing progress
 
 ---
 
-The more you know, the better you can help. But remember — you're learning about a person, not building a dossier. Respect the difference.
-
-## Related
-
-- [Agent workspace](/concepts/agent-workspace)
+_Last updated: 2026-06-25_
