@@ -20,12 +20,9 @@ const WORKSPACE = process.env.GIT_DASHBOARD_WORKSPACE ||
 function sh(cmd, opts = {}) {
   try {
     const out = execSync(cmd, { cwd: WORKSPACE, encoding: 'utf-8', ...opts });
-    // Only trim trailing whitespace — NOT leading (git status --porcelain
-    // uses leading space to mean 'no staged change', and .trim() eats it)
-    const trimmed = out.replace(/[\r\n]+$/, '');
-    return { ok: true, stdout: trimmed, stderr: '' };
+    return { ok: true, stdout: out.trim(), stderr: '' };
   } catch (e) {
-    return { ok: false, stdout: (e.stdout || '').replace(/[\r\n]+$/, ''), stderr: (e.stderr || '').trim() || e.message };
+    return { ok: false, stdout: e.stdout?.trim() || '', stderr: e.stderr?.trim() || e.message };
   }
 }
 
@@ -53,12 +50,6 @@ function apiStatus() {
   const commit = sh('git rev-parse --short HEAD');
   const remote = sh(`git rev-parse --abbrev-ref --symbolic-full-name @{upstream} 2>/dev/null`);
 
-  // Remote URL (fallback if no upstream tracking)
-  const remoteUrl = sh(`git remote get-url origin 2>/dev/null`);
-  const remoteDisplay = remote.stdout
-    ? remote.stdout.replace(/^refs\/remotes\//, '')
-    : (remoteUrl.stdout ? remoteUrl.stdout.replace(/^https?:\/\/[^@]+@/, 'https://') : '(no remote)');
-
   // Ahead / behind counts
   const behind = sh(`git rev-list --count HEAD..@{upstream} 2>/dev/null`);
   const ahead = sh(`git rev-list --count @{upstream}..HEAD 2>/dev/null`);
@@ -69,7 +60,7 @@ function apiStatus() {
   return {
     branch: branch.stdout || 'unknown',
     commit: commit.stdout || 'unknown',
-    remote: remoteDisplay,
+    remote: remote.stdout || '(no remote)',
     behind: behind.ok ? parseInt(behind.stdout || '0') : 0,
     ahead: ahead.ok ? parseInt(ahead.stdout || '0') : 0,
     lastCommit: lastCommit.stdout || '(no commits)',

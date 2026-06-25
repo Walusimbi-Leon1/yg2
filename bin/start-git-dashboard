@@ -12,6 +12,8 @@ if lsof -ti :"$PORT" >/dev/null 2>&1; then
 fi
 
 echo "   🚀 Starting Git Dashboard on port $PORT..."
+# Force the workspace to the real workspace (not Codespaces' default mount)
+export GIT_DASHBOARD_WORKSPACE="$SCRIPT_DIR"
 nohup node "$SCRIPT_DIR/git-dashboard/server.js" > "$SCRIPT_DIR/git-dashboard/server.log" 2>&1 &
 echo "   PID: $!"
 echo "   📊 Dashboard: http://127.0.0.1:$PORT"
