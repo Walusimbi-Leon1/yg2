@@ -12,7 +12,8 @@
         "big-pickel3/big-pickle": {},
         "big-pickel4/big-pickle": {},
         "big-pickel5/big-pickle": {}
-      }
+      },
+      "timeoutSeconds": 300
     }
   },
   "gateway": {
@@ -82,7 +83,8 @@
             "id": "big-pickle",
             "name": "big-pickle"
           }
-        ]
+        ],
+        "timeoutSeconds": 300
       },
       "big-pickel2": {
         "baseUrl": "https://opencode.ai/zen/v1",
@@ -93,7 +95,8 @@
             "id": "big-pickle",
             "name": "big-pickle"
           }
-        ]
+        ],
+        "timeoutSeconds": 300
       },
       "big-pickel3": {
         "baseUrl": "https://opencode.ai/zen/v1",
@@ -104,7 +107,8 @@
             "id": "big-pickle",
             "name": "big-pickle"
           }
-        ]
+        ],
+        "timeoutSeconds": 300
       },
       "big-pickel4": {
         "baseUrl": "https://opencode.ai/zen/v1",
@@ -115,7 +119,8 @@
             "id": "big-pickle",
             "name": "big-pickle"
           }
-        ]
+        ],
+        "timeoutSeconds": 300
       },
       "big-pickel5": {
         "baseUrl": "https://opencode.ai/zen/v1",
@@ -126,7 +131,8 @@
             "id": "big-pickle",
             "name": "big-pickle"
           }
-        ]
+        ],
+        "timeoutSeconds": 300
       }
     }
   }
