@@ -96,6 +96,10 @@ browser/config/.config/chromium/Default/Top Sites*
 browser/config/.config/chromium/Default/Trust Tokens*
 browser/config/.config/chromium/Default/Web Data-journal
 browser/config/.config/chromium/Default/Network Action Predictor*
+browser/config/.config/chromium/Default/Network Persistent State
+browser/config/.config/chromium/Default/Reporting and NEL
+browser/config/.config/chromium/Default/TransportSecurity
+browser/config/.config/chromium/Local State
 browser/config/.config/chromium/Default/Account Web Data*
 browser/config/.config/chromium/Default/Affiliation Database*
 browser/config/.config/chromium/Default/Login Data For Account*
