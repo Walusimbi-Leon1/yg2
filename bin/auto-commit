@@ -42,8 +42,16 @@ COMMIT_MSG="$COMMIT_MSG [auto]"
 
 git add -A 2>/dev/null || true
 
+# Load GitHub token from TOOLS.md for git pushes (codespace credential helper needs GITHUB_TOKEN env)
+if [ -z "${GITHUB_TOKEN:-}" ]; then
+  GH_TOKEN_LINE=$(grep 'ghp_' "$SCRIPT_DIR/TOOLS.md" 2>/dev/null | head -1 | grep -oP 'ghp_\w+' || true)
+  if [ -n "$GH_TOKEN_LINE" ]; then
+    export GITHUB_TOKEN="$GH_TOKEN_LINE"
+  fi
+fi
+
 if git commit -m "$COMMIT_MSG" --quiet 2>/dev/null; then
-  git push origin main --quiet 2>/dev/null && echo "✅ Pushed: $COMMIT_MSG" || echo "⚠️  Commit OK, push failed (network?)"
+  GIT_TERMINAL_PROMPT=0 git push origin main --quiet 2>/dev/null && echo "✅ Pushed: $COMMIT_MSG" || echo "⚠️  Commit OK, push failed (network?)"
 else
   echo "⏭️  Nothing new to commit"
 fi

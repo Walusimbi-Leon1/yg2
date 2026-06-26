@@ -6,6 +6,13 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 START_TIME=$(date +%s)
 
+# ── GitHub Token for git pushes ──
+# Extract from TOOLS.md so the codespace credential helper works
+GH_TOKEN=$(grep -oP 'ghp_\w+' "$SCRIPT_DIR/TOOLS.md" 2>/dev/null | head -1 || true)
+if [ -n "$GH_TOKEN" ]; then
+  export GITHUB_TOKEN="$GH_TOKEN"
+fi
+
 echo "=================================================="
 echo "  🐾 L4 Claw Pack - Starting Services"
 echo "  $(date)"

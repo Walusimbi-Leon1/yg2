@@ -14,7 +14,14 @@ fi
 
 echo "   🚀 Starting Git Dashboard on port $PORT..."
 export GIT_DASHBOARD_WORKSPACE="$SCRIPT_DIR"
-nohup node "$SCRIPT_DIR/git-dashboard/server.js" > "$SCRIPT_DIR/git-dashboard/server.log" 2>&1 &
+
+# Set GITHUB_TOKEN from TOOLS.md so git push works (codespace credential helper needs it)
+TOKEN=$(grep -oP 'ghp_\w+' "$SCRIPT_DIR/TOOLS.md" 2>/dev/null | head -1 || true)
+if [ -n "$TOKEN" ]; then
+  export GITHUB_TOKEN="$TOKEN"
+fi
+
+nohup env GITHUB_TOKEN="$TOKEN" node "$SCRIPT_DIR/git-dashboard/server.js" > "$SCRIPT_DIR/git-dashboard/server.log" 2>&1 &
 echo "   PID: $!"
 echo "   📊 Dashboard: http://127.0.0.1:$PORT"
 echo "   💡 Use the Commit & Push button to push changes manually"
