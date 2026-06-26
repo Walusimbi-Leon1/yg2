@@ -5,6 +5,18 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "$0")/.." && pwd)"
 echo "🤖 OpenClaw: checking..."
 
+# ── Ensure session storage lives in workspace for git tracking ──
+# On a fresh codespace (OpenClaw never started), symlink sessions into workspace
+# On subsequent starts, the dir/symlink already exists — skip
+SESSIONS_DIR="$HOME/.openclaw/agents/main/sessions"
+WORKSPACE_SESSIONS="$SCRIPT_DIR/sessions"
+if [ ! -e "$SESSIONS_DIR" ] && [ ! -L "$SESSIONS_DIR" ]; then
+  mkdir -p "$(dirname "$SESSIONS_DIR")"
+  mkdir -p "$WORKSPACE_SESSIONS"
+  ln -sf "$WORKSPACE_SESSIONS" "$SESSIONS_DIR"
+  echo "  🔗 Session storage linked to workspace/sessions/ — transcripts will be tracked in git"
+fi
+
 if curl -sf http://127.0.0.1:18789/health >/dev/null 2>&1; then
   echo "  ✅ OpenClaw Gateway already running"
 else

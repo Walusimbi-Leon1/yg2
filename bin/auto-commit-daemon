@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+# Auto-commit daemon — runs every 2 minutes in the background
+# Syncing session transcripts and pushing to GitHub.
+# Started by bin/start-git-dashboard or start.sh
+set -euo pipefail
+
+WORKSPACE="$HOME/.openclaw/workspace"
+PIDFILE="$WORKSPACE/.auto-commit.pid"
+
+# Don't start if already running
+if [ -f "$PIDFILE" ]; then
+  OLD_PID=$(cat "$PIDFILE")
+  if kill -0 "$OLD_PID" 2>/dev/null; then
+    echo "auto-commit daemon already running (PID $OLD_PID)"
+    exit 0
+  fi
+  rm -f "$PIDFILE"
+fi
+
+echo $$ > "$PIDFILE"
+trap 'rm -f "$PIDFILE"; exit' INT TERM EXIT
+
+INTERVAL=120  # 2 minutes
+
+while true; do
+  bash "$WORKSPACE/bin/auto-commit"
+  sleep "$INTERVAL"
+done
