@@ -1,12 +1,12 @@
 {
   "agent:main:main": {
     "sessionId": "2d7ed504-f27c-4cd2-b86c-466844b781ee",
-    "updatedAt": 1782467118912,
+    "updatedAt": 1782468239803,
     "sessionStartedAt": 1782454307353,
-    "lastInteractionAt": 1782467077892,
+    "lastInteractionAt": 1782468211326,
     "sessionFile": "/workspaces/Codespace-3/sessions/2d7ed504-f27c-4cd2-b86c-466844b781ee.jsonl",
     "systemSent": true,
-    "abortedLastRun": false,
+    "abortedLastRun": true,
     "chatType": "direct",
     "route": {
       "channel": "webchat"
@@ -22,7 +22,7 @@
     },
     "systemPromptReport": {
       "source": "run",
-      "generatedAt": 1782467079110,
+      "generatedAt": 1782467836422,
       "sessionId": "2d7ed504-f27c-4cd2-b86c-466844b781ee",
       "sessionKey": "agent:main:main",
       "provider": "big-pickel2",
@@ -362,7 +362,7 @@
         ]
       },
       "currentTurn": {
-        "promptChars": 2328,
+        "promptChars": 359,
         "runtimeContextChars": 0
       }
     },
@@ -470,8 +470,8 @@
     "memoryFlushFailureCount": 0,
     "modelProvider": "big-pickel2",
     "model": "big-pickle",
-    "totalTokens": 134844,
-    "cacheRead": 134784,
+    "totalTokens": 145232,
+    "cacheRead": 145024,
     "cacheWrite": 0,
     "skillsSnapshot": {
       "skills": [
@@ -538,15 +538,16 @@
         "bytes": 5732
       }
     },
-    "status": "done",
-    "startedAt": 1782467079619,
+    "status": "killed",
+    "startedAt": 1782468211312,
     "contextTokens": 200000,
-    "inputTokens": 18701,
-    "outputTokens": 2797,
+    "inputTokens": 8840,
+    "outputTokens": 6873,
     "estimatedCostUsd": 0,
     "memoryFlushAt": 1782466782035,
     "memoryFlushCompactionCount": 0,
-    "endedAt": 1782467118775,
-    "runtimeMs": 39156
+    "endedAt": 1782468239802,
+    "runtimeMs": 28490,
+    "restartRecoveryDeliveryRunId": "c2e6487d-5265-44fe-8699-3ec9b9d48098"
   }
 }
