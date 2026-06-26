@@ -36,9 +36,15 @@ RUN set -eux; \
 RUN curl -fsSL https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash && \
     . "$NVM_DIR/nvm.sh" && \
     nvm install "$NODE_VERSION" && \
-    nvm alias default "$NODE_VERSION"
-
-ENV PATH="${NVM_DIR}/versions/node/v${NODE_VERSION}/bin:${PATH}"
+    nvm alias default "$NODE_VERSION" && \
+    # Find the actual node install path and symlink for root access
+    NV_PATH="$(. $NVM_DIR/nvm.sh && which node)" && \
+    ln -sf "$(dirname "$NV_PATH")" /usr/local/node-bin && \
+    ln -sf "$NV_PATH" /usr/local/bin/node && \
+    ln -sf "$(dirname "$NV_PATH")/npm" /usr/local/bin/npm && \
+    ln -sf "$(dirname "$NV_PATH")/npx" /usr/local/bin/npx && \
+    # Verify
+    node --version && npm --version
 
 # ── Global npm packages ──
 RUN npm install -g 9router@0.5.8 openclaw@latest
