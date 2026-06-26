@@ -130,3 +130,6 @@ sessions/*.lock
 sessions/*.trajectory.jsonl
 sessions/*.trajectory-path.json
 
+
+# OpenClaw internal skill prompts (auto-generated)
+sessions/skills-prompts/
