@@ -39,22 +39,6 @@ Skills are shared. Your setup is yours. Keeping them apart means you can update 
 
 Add whatever helps you do your job. This is your cheat sheet.
 
-## Credentials
-
-### GitHub
-- **Token:** `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`
-- **Stored in:** `~/.git-credentials` + `~/.config/gh/hosts.yml` (gh auth)
-- **Used for:** Git pushes to Codespace-3 repo, gh CLI operations
-- **User:** Walusimbi-Leon1
-- **Repo:** https://github.com/Walusimbi-Leon1/Codespace-3
-
-### Setup (fresh codespace)
-```bash
-gh auth login --with-token <<< "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"
-git config --global credential.helper store
-echo "https://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@github.com" > ~/.git-credentials
-```
-
 ## Related
 
 - [Agent workspace](/concepts/agent-workspace)
