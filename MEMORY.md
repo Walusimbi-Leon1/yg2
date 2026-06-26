@@ -121,4 +121,17 @@ I am **Leon AI 4 (L4)** — the fourth iteration of Leon's AI agent. I run in th
 
 ---
 
+### 2026-06-26 — Railway Migration 🚄
+- **New permanent home:** Railway Debian 12 container (48 cores, 2.9T disk, 24/7)
+- **No Docker** — browser migrated to direct Chromium headless via apt
+- **No systemd** — services run via nohup, managed by `start-railway.sh`
+- **Git repo reconnected** — rebased local files onto origin/main
+- **Session symlink fixed** — now points to /workspaces/Codespace-3/sessions/
+- **New scripts:** `start-railway.sh`, `bin/start-browser-railway`
+- **Git Dashboard on port 3030** — commit & push via web UI
+- **Auto-commit daemon removed** — manual push via dashboard only
+- **BOOTSTRAP.md deleted**
+
+---
+
 _Last updated: 2026-06-26_

@@ -1,0 +1,103 @@
+#!/usr/bin/env bash
+# bin/start-browser-railway — Start Chromium directly (no Docker)
+# CDP on port 9222, forwarded to 9223 via socat
+# Browser CLI at: cd browser && node browser.js status
+set -euo pipefail
+
+SCRIPT_DIR="$(cd "$(dirname "$0")/.." && pwd)"
+CDP_PORT="${CDP_PORT:-9223}"
+USER_DATA_DIR="$SCRIPT_DIR/browser/config/chromium"
+PID_FILE="/tmp/chromium.pid"
+
+echo "🖥️  Remote Browser (Railway): checking..."
+
+# ── Helpers ──
+is_running() { pgrep -f "chromium.*headless.*remote-debugging-port" >/dev/null 2>&1; }
+
+# ── If already running, check CDP health ──
+if is_running; then
+  PID=$(pgrep -f "chromium.*headless.*remote-debugging-port" | head -1)
+  echo "   ✅ Chromium already running (PID $PID)"
+  if curl -sf "http://127.0.0.1:9222/json/version" >/dev/null 2>&1; then
+    echo "   🔌 CDP:     http://127.0.0.1:9222 (host) → ws://127.0.0.1:$CDP_PORT (external)"
+  else
+    echo "   ⚠️  CDP not responding — may need restart"
+  fi
+  echo "   🔧 CLI:     cd browser && node browser.js status"
+  exit 0
+fi
+
+# ── Install browser CLI deps if needed ──
+if [ ! -d "$SCRIPT_DIR/browser/node_modules" ]; then
+  echo "   📦 Installing browser CLI dependencies..."
+  cd "$SCRIPT_DIR/browser" && npm install --silent 2>&1 | tail -1 && cd "$SCRIPT_DIR"
+fi
+
+# ── Ensure Chromium is installed ──
+if ! command -v chromium &>/dev/null; then
+  echo "   📥 Installing Chromium (first time - this may take a minute)..."
+  apt-get update -qq && apt-get install -y -qq chromium chromium-sandbox 2>&1 | tail -3
+fi
+
+if ! command -v socat &>/dev/null; then
+  apt-get install -y -qq socat 2>&1 | tail -1
+fi
+
+# ── Ensure user data dir ──
+mkdir -p "$USER_DATA_DIR"
+
+# ── Kill any stale processes on our ports ──
+kill_chromium() { pkill -f "chromium.*headless.*remote-debugging-port" 2>/dev/null || true; }
+trap kill_chromium EXIT
+
+# ── Start Chromium headless with CDP ──
+echo "   🚀 Starting Chromium headless..."
+nohup chromium --headless=new \
+  --remote-debugging-port=9222 \
+  --no-first-run \
+  --disable-gpu \
+  --disable-software-rasterizer \
+  --disable-features=TranslateUI \
+  --disable-translate \
+  --disable-fre \
+  --disable-search-engine-choice-screen \
+  --disable-dev-shm-usage \
+  --no-sandbox \
+  --user-data-dir="$USER_DATA_DIR" \
+  > /tmp/chromium.log 2>&1 &
+
+CHROMIUM_PID=$!
+echo "$CHROMIUM_PID" > "$PID_FILE"
+
+# ── Wait for CDP ──
+echo "   ⏳ Waiting for CDP..."
+CDP_READY=false
+for i in $(seq 1 30); do
+  if curl -sf "http://127.0.0.1:9222/json/version" >/dev/null 2>&1; then
+    CDP_READY=true
+    break
+  fi
+  sleep 1
+done
+
+if [ "$CDP_READY" = true ]; then
+  echo "   ✅ CDP ready on port 9222"
+
+  # Start socat forwarder for CDP port mapping
+  pkill -f "socat.*9223" 2>/dev/null || true
+  sleep 1
+  nohup socat TCP-LISTEN:9223,fork,reuseaddr TCP:127.0.0.1:9222 >/dev/null 2>&1 &
+  SOCAT_PID=$!
+  echo "   🔌 CDP external: ws://127.0.0.1:$CDP_PORT"
+
+  echo ""
+  echo "   ── Connection Info ──────────────────"
+  echo "   🔌 CDP:     http://127.0.0.1:9222 (internal) → :$CDP_PORT (external)"
+  echo "   🔧 CLI:     cd browser && node browser.js status"
+  echo "   📸 Screenshot: node browser.js screenshot"
+  echo "   📄 HTML:    node browser.js html <tab-id>"
+  echo "   ─────────────────────────────────────"
+else
+  echo "   ⚠️  CDP didn't start in time. Check: cat /tmp/chromium.log"
+  cat /tmp/chromium.log | tail -20
+fi

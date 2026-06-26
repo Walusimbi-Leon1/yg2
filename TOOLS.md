@@ -39,6 +39,24 @@ Skills are shared. Your setup is yours. Keeping them apart means you can update 
 
 Add whatever helps you do your job. This is your cheat sheet.
 
+## Railway (current host)
+
+- **Host:** Railway Debian 12 container (2212c8370b61)
+- **CPU:** 48 cores
+- **Disk:** 2.9T (1.9T free)
+- **RAM:** (unknown — no free command)
+- **Tailscale IP:** 100.118.109.60
+- **ttyd:** Port 8080 (web terminal, PID 1)
+- **Start command:** `bash /workspaces/Codespace-3/start-railway.sh`
+- **No Docker, no systemd** — services run via nohup
+
+### Services
+- **OpenClaw:** http://127.0.0.1:18789
+- **9-router:** http://127.0.0.1:20128 (v0.5.8 — pinned, use `--host 127.0.0.1 --no-browser` flags)
+- **Git Dashboard:** http://127.0.0.1:3030
+- **Browser CDP:** http://127.0.0.1:9223
+- **Browser CLI:** `cd /workspaces/Codespace-3/browser && node browser.js status`
+
 ## Related
 
 - [Agent workspace](/concepts/agent-workspace)
