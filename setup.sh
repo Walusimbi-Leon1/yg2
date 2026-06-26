@@ -101,6 +101,23 @@ echo "  ✅ Scripts are executable"
 
 echo ""
 
+# ── Session storage link ──
+# Pre-link OpenClaw's sessions dir to workspace so transcripts
+# are tracked in git from the first message.
+SESSIONS_SRC="$HOME/.openclaw/agents/main/sessions"
+SESSIONS_DST="$SCRIPT_DIR/sessions"
+mkdir -p "$SESSIONS_DST"
+mkdir -p "$(dirname "$SESSIONS_SRC")"
+if [ -e "$SESSIONS_SRC" ] && [ ! -L "$SESSIONS_SRC" ]; then
+  echo "  🔄 Migrating sessions directory to workspace..."
+  cp -a "$SESSIONS_SRC/." "$SESSIONS_DST/" 2>/dev/null || true
+  rm -rf "$SESSIONS_SRC"
+fi
+ln -sfn "$SESSIONS_DST" "$SESSIONS_SRC"
+echo "  🔗 Sessions linked → $SESSIONS_DST"
+
+echo ""
+
 # ── Step 6: Verify ─────────────────────────────────────────
 echo "📦 Step 6/6: Verification..."
 

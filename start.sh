@@ -12,6 +12,26 @@ echo "  $(date)"
 echo "=================================================="
 echo ""
 
+# ── Session storage link ──
+# Link OpenClaw's internal sessions dir to the workspace so transcripts
+# are tracked in git. Safe to run every time.
+SESSIONS_SRC="$HOME/.openclaw/agents/main/sessions"
+SESSIONS_DST="$SCRIPT_DIR/sessions"
+mkdir -p "$SESSIONS_DST"
+mkdir -p "$(dirname "$SESSIONS_SRC")"
+if [ -e "$SESSIONS_SRC" ] && [ ! -L "$SESSIONS_SRC" ]; then
+  # Real directory exists — migrate to symlink
+  echo "   🔄 Migrating sessions directory to workspace..."
+  cp -a "$SESSIONS_SRC/." "$SESSIONS_DST/" 2>/dev/null || true
+  rm -rf "$SESSIONS_SRC"
+elif [ ! -e "$SESSIONS_SRC" ]; then
+  # Doesn't exist — create symlink
+  :
+fi
+ln -sfn "$SESSIONS_DST" "$SESSIONS_SRC"
+echo "   🔗 Sessions → $SESSIONS_DST"
+echo ""
+
 # 1. Tailscale
 if [ -x "$SCRIPT_DIR/bin/start-tailscale" ]; then
   "$SCRIPT_DIR/bin/start-tailscale"
