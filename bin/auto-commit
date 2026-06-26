@@ -1,0 +1,56 @@
+#!/usr/bin/env bash
+# Auto-commit tracked changes in the workspace and push to GitHub.
+# Intended to be run from cron every few minutes.
+set -euo pipefail
+
+WORKSPACE="$HOME/.openclaw/workspace"
+cd "$WORKSPACE"
+
+# First, sync session transcripts so new conversations are picked up
+"$WORKSPACE/bin/sync-sessions" 2>/dev/null || true
+
+# Check if there's anything to commit
+if git diff --quiet && git diff --cached --quiet && [ -z "$(git status --porcelain)" ]; then
+  exit 0
+fi
+
+# Count what changed
+CHANGES=$(git status --porcelain | wc -l)
+HAS_SESSION=false
+HAS_OTHER=false
+if git status --porcelain | grep -q "^.M.*sessions/" || git status --porcelain | grep -q "^??.*sessions/"; then
+  HAS_SESSION=true
+fi
+if git status --porcelain | grep -qv "sessions/" && git status --porcelain | grep -qv "^.M.*browser/config.*\(Favicons\|History\|Web Data\)$"; then
+  HAS_OTHER=true
+fi
+
+# Build commit message
+MSG_PARTS=()
+if [ "$HAS_SESSION" = true ]; then
+  # Count which session files changed
+  SESSION_FILES=$(git status --porcelain | grep "sessions/" | wc -l)
+  MSG_PARTS+=("📝 session +${SESSION_FILES} file(s)")
+fi
+if [ "$HAS_OTHER" = true ]; then
+  MSG_PARTS+=("🛠️  workspace changes")
+fi
+
+if [ ${#MSG_PARTS[@]} -eq 0 ]; then
+  # Only browser noise — skip
+  exit 0
+fi
+
+# Join parts
+COMMIT_MSG=$(IFS=" | "; echo "${MSG_PARTS[*]}")
+COMMIT_MSG="$COMMIT_MSG [auto]"
+
+# Stage everything (gitignore protects what shouldn't be there)
+git add -A 2>/dev/null || true
+
+# Commit and push
+if git commit -m "$COMMIT_MSG" --quiet 2>/dev/null; then
+  git push origin main --quiet 2>/dev/null && echo "✅ Pushed: $COMMIT_MSG" || echo "⚠️  Commit OK, push failed (network?)"
+else
+  echo "⏭️  Nothing new to commit"
+fi

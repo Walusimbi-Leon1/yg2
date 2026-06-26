@@ -7,6 +7,7 @@ browser/config/.local/
 
 # ── Chromium auto-generated top-level dirs ──
 browser/config/.config/chromium/CertificateRevocation/
+browser/config/.config/chromium/Crowd Deny/
 browser/config/.config/chromium/BrowserMetrics*
 browser/config/.config/chromium/Crash Reports/
 browser/config/.config/chromium/GPUPersistentCache/
@@ -123,3 +124,9 @@ browser/node_modules/
 # ── OS files ──
 .DS_Store
 Thumbs.db
+
+# ── Session transcripts — lock & trajectory noise (keep .jsonl + sessions.json) ──
+sessions/*.lock
+sessions/*.trajectory.jsonl
+sessions/*.trajectory-path.json
+

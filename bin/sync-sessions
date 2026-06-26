@@ -1,0 +1,43 @@
+#!/usr/bin/env bash
+# Sync session transcripts from OpenClaw's internal storage to the workspace
+# so they're visible in git and can be committed to the repo.
+set -euo pipefail
+
+SESSION_SRC="$HOME/.openclaw/agents/main/sessions"
+SESSION_DST="$HOME/.openclaw/workspace/sessions"
+
+# Source must exist (OpenClaw running or has run before)
+if [ ! -d "$SESSION_SRC" ]; then
+  echo "⏭️  No sessions dir at $SESSION_SRC — OpenClaw hasn't started yet"
+  exit 0
+fi
+
+mkdir -p "$SESSION_DST"
+
+COPIED=0
+
+# sessions.json — session metadata
+if [ -f "$SESSION_SRC/sessions.json" ]; then
+  cp -p "$SESSION_SRC/sessions.json" "$SESSION_DST/sessions.json"
+  COPIED=$((COPIED + 1))
+fi
+
+# Active transcript files (*.jsonl, excluding trajectory debug logs)
+for f in "$SESSION_SRC"/*.jsonl; do
+  [ -f "$f" ] || continue
+  base="$(basename "$f")"
+  [[ "$base" == *.trajectory* ]] && continue
+  cp -p "$f" "$SESSION_DST/$base"
+  COPIED=$((COPIED + 1))
+done
+
+# Reset archives (old session history) — copy only if not already present
+for f in "$SESSION_SRC"/*.jsonl.reset.*; do
+  [ -f "$f" ] || continue
+  base="$(basename "$f")"
+  [ -f "$SESSION_DST/$base" ] && continue
+  cp -p "$f" "$SESSION_DST/$base"
+  COPIED=$((COPIED + 1))
+done
+
+echo "✅ Synced $COPIED session files to workspace/sessions/"
