@@ -1,9 +1,9 @@
 {
   "agent:main:main": {
     "sessionId": "2d7ed504-f27c-4cd2-b86c-466844b781ee",
-    "updatedAt": 1782457184448,
+    "updatedAt": 1782457773122,
     "sessionStartedAt": 1782454307353,
-    "lastInteractionAt": 1782457182432,
+    "lastInteractionAt": 1782457771251,
     "sessionFile": "/home/codespace/.openclaw/agents/main/sessions/2d7ed504-f27c-4cd2-b86c-466844b781ee.jsonl",
     "systemSent": true,
     "abortedLastRun": false,
@@ -22,7 +22,7 @@
     },
     "systemPromptReport": {
       "source": "run",
-      "generatedAt": 1782456945725,
+      "generatedAt": 1782457183639,
       "sessionId": "2d7ed504-f27c-4cd2-b86c-466844b781ee",
       "sessionKey": "agent:main:main",
       "provider": "big-pickel2",
@@ -362,7 +362,7 @@
         ]
       },
       "currentTurn": {
-        "promptChars": 386,
+        "promptChars": 268,
         "runtimeContextChars": 0
       }
     },
@@ -470,8 +470,8 @@
     "memoryFlushFailureCount": 0,
     "modelProvider": "big-pickel2",
     "model": "big-pickle",
-    "totalTokens": 87772,
-    "cacheRead": 86784,
+    "totalTokens": 114192,
+    "cacheRead": 113920,
     "cacheWrite": 0,
     "skillsSnapshot": {
       "skills": [
@@ -539,11 +539,11 @@
       }
     },
     "status": "running",
-    "startedAt": 1782457184348,
+    "startedAt": 1782457773019,
     "contextTokens": 200000,
-    "inputTokens": 3866,
-    "outputTokens": 1265,
+    "inputTokens": 18987,
+    "outputTokens": 11105,
     "estimatedCostUsd": 0,
-    "restartRecoveryDeliveryRunId": "434efb9f-85ca-4501-b7a8-db63702343f2"
+    "restartRecoveryDeliveryRunId": "a3878d6e-85d3-431a-abd0-402bdf72bc54"
   }
 }
