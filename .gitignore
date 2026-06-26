@@ -133,3 +133,6 @@ sessions/*.trajectory-path.json
 
 # OpenClaw internal skill prompts (auto-generated)
 sessions/skills-prompts/
+
+# ── Chromium runtime data (Railway) ──
+browser/config/chromium/
