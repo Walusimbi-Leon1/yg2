@@ -1,10 +1,10 @@
 {
   "agent:main:main": {
     "sessionId": "2d7ed504-f27c-4cd2-b86c-466844b781ee",
-    "updatedAt": 1782458553037,
+    "updatedAt": 1782458789667,
     "sessionStartedAt": 1782454307353,
-    "lastInteractionAt": 1782458551109,
-    "sessionFile": "/home/codespace/.openclaw/agents/main/sessions/2d7ed504-f27c-4cd2-b86c-466844b781ee.jsonl",
+    "lastInteractionAt": 1782458786451,
+    "sessionFile": "/workspaces/Codespace-3/sessions/2d7ed504-f27c-4cd2-b86c-466844b781ee.jsonl",
     "systemSent": true,
     "abortedLastRun": false,
     "chatType": "direct",
@@ -539,11 +539,11 @@
       }
     },
     "status": "running",
-    "startedAt": 1782458552928,
+    "startedAt": 1782458789562,
     "contextTokens": 200000,
     "inputTokens": 3268,
     "outputTokens": 2840,
     "estimatedCostUsd": 0,
-    "restartRecoveryDeliveryRunId": "ee0683e6-7135-42dd-b7e6-4a7b7176a0ac"
+    "restartRecoveryDeliveryRunId": "0aaf816f-2ddd-413a-b273-c3a02260732b"
   }
 }
