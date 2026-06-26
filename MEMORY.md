@@ -80,4 +80,30 @@ I am **Leon AI 4 (L4)** — the fourth iteration of Leon's AI agent. I run in th
 
 ---
 
-_Last updated: 2026-06-25_
+### 2026-06-26 — Session Persistence (Transcripts in Repo)
+- Built session persistence system so all conversations survive codespace destruction
+- **New: `sessions/` directory in the repo** — mirrors OpenClaw's conversation transcripts
+  - `sessions/<id>.jsonl` — JSONL transcript of every exchange (including tool calls)
+  - `sessions/sessions.json` — session metadata mapping
+  - Old session archives (`.jsonl.reset.*`) also included for full history
+- **`bin/sync-sessions`** — copies latest session files from internal OpenClaw storage to workspace
+- **`bin/auto-commit`** — syncs sessions, commits, and pushes to GitHub
+- **`bin/auto-commit-daemon`** — runs in background, auto-commits every 2 minutes
+  - Started by `bin/start-git-dashboard` (which runs from `start.sh`)
+  - Only commits when there are actual changes (new messages)
+- **`bin/start-openclaw`** — updated to symlink sessions into workspace on fresh codespaces
+  - On a brand-new codespace, creates `~/.openclaw/agents/main/sessions/` → `workspace/sessions/`
+  - This means every transcript write goes directly into the git-tracked workspace
+- **Git Dashboard** now auto-refreshes and shows session files when they change
+- Key config files now tracked in repo:
+  - `sessions/` — all conversation transcripts
+  - `bin/sync-sessions`, `bin/auto-commit`, `bin/auto-commit-daemon` — session persistence scripts
+
+### Current Session Gaps (Live Only)
+- OpenClaw's SQLite state (`~/.openclaw/state/openclaw.sqlite`) is NOT in repo — contains runtime session state
+- If OpenClaw crashes mid-session, some ephemeral state (active thinking level, model overrides) could be lost
+- But the **JSONL transcript** is always synced every 2 minutes, so worst case: lose up to 2 minutes of conversation
+
+---
+
+_Last updated: 2026-06-26_
