@@ -3,8 +3,9 @@
 # so they're visible in git and can be committed to the repo.
 set -euo pipefail
 
+SCRIPT_DIR="$(cd "$(dirname "$0")/.." && pwd)"
 SESSION_SRC="$HOME/.openclaw/agents/main/sessions"
-SESSION_DST="$HOME/.openclaw/workspace/sessions"
+SESSION_DST="$SCRIPT_DIR/sessions"
 
 # Source must exist (OpenClaw running or has run before)
 if [ ! -d "$SESSION_SRC" ]; then

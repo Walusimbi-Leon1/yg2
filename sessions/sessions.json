@@ -1,9 +1,9 @@
 {
   "agent:main:main": {
     "sessionId": "2d7ed504-f27c-4cd2-b86c-466844b781ee",
-    "updatedAt": 1782457773122,
+    "updatedAt": 1782458553037,
     "sessionStartedAt": 1782454307353,
-    "lastInteractionAt": 1782457771251,
+    "lastInteractionAt": 1782458551109,
     "sessionFile": "/home/codespace/.openclaw/agents/main/sessions/2d7ed504-f27c-4cd2-b86c-466844b781ee.jsonl",
     "systemSent": true,
     "abortedLastRun": false,
@@ -22,7 +22,7 @@
     },
     "systemPromptReport": {
       "source": "run",
-      "generatedAt": 1782457183639,
+      "generatedAt": 1782458185521,
       "sessionId": "2d7ed504-f27c-4cd2-b86c-466844b781ee",
       "sessionKey": "agent:main:main",
       "provider": "big-pickel2",
@@ -42,10 +42,10 @@
         "sandboxed": false
       },
       "systemPrompt": {
-        "chars": 37873,
-        "hash": "0711a798dd28cabb2abf9797ad4edcb0f4edcfe1d69adc4d512958cd53efe3da",
+        "chars": 37567,
+        "hash": "b91b9076cb26481aef35e1ead0e8a5c241d6df55570d8c44fc0278e6fb4dce54",
         "projectContextChars": 18104,
-        "nonProjectContextChars": 19769
+        "nonProjectContextChars": 19463
       },
       "injectedWorkspaceFiles": [
         {
@@ -362,7 +362,7 @@
         ]
       },
       "currentTurn": {
-        "promptChars": 268,
+        "promptChars": 404,
         "runtimeContextChars": 0
       }
     },
@@ -470,8 +470,8 @@
     "memoryFlushFailureCount": 0,
     "modelProvider": "big-pickel2",
     "model": "big-pickle",
-    "totalTokens": 114192,
-    "cacheRead": 113920,
+    "totalTokens": 114955,
+    "cacheRead": 114176,
     "cacheWrite": 0,
     "skillsSnapshot": {
       "skills": [
@@ -539,11 +539,11 @@
       }
     },
     "status": "running",
-    "startedAt": 1782457773019,
+    "startedAt": 1782458552928,
     "contextTokens": 200000,
-    "inputTokens": 18987,
-    "outputTokens": 11105,
+    "inputTokens": 3268,
+    "outputTokens": 2840,
     "estimatedCostUsd": 0,
-    "restartRecoveryDeliveryRunId": "a3878d6e-85d3-431a-abd0-402bdf72bc54"
+    "restartRecoveryDeliveryRunId": "ee0683e6-7135-42dd-b7e6-4a7b7176a0ac"
   }
 }

@@ -1,7 +1,7 @@
 {
   "agents": {
     "defaults": {
-      "workspace": "/home/codespace/.openclaw/workspace",
+      "workspace": "/workspaces/Codespace-3",
       "model": {
         "primary": "9router/oc/big-pickle"
       },

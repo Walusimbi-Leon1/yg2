@@ -10,7 +10,18 @@ echo "🤖 OpenClaw: checking..."
 # On subsequent starts, the dir/symlink already exists — skip
 SESSIONS_DIR="$HOME/.openclaw/agents/main/sessions"
 WORKSPACE_SESSIONS="$SCRIPT_DIR/sessions"
-if [ ! -e "$SESSIONS_DIR" ] && [ ! -L "$SESSIONS_DIR" ]; then
+if [ -L "$SESSIONS_DIR" ]; then
+  # Already a symlink — nothing to do
+  :
+elif [ -d "$SESSIONS_DIR" ]; then
+  # Real directory exists — migrate to symlink (new codespace after migration)
+  echo "  🔄 Migrating sessions directory to symlink..."
+  cp -a "$SESSIONS_DIR/." "$WORKSPACE_SESSIONS/" 2>/dev/null || true
+  rm -rf "$SESSIONS_DIR"
+  ln -sf "$WORKSPACE_SESSIONS" "$SESSIONS_DIR"
+  echo "  ✅ Migrated: ~/.openclaw/agents/main/sessions -> workspace/sessions/"
+else
+  # Does not exist — fresh codespace, create symlink
   mkdir -p "$(dirname "$SESSIONS_DIR")"
   mkdir -p "$WORKSPACE_SESSIONS"
   ln -sf "$WORKSPACE_SESSIONS" "$SESSIONS_DIR"

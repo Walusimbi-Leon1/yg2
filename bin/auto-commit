@@ -1,21 +1,19 @@
 #!/usr/bin/env bash
 # Auto-commit tracked changes in the workspace and push to GitHub.
-# Intended to be run from cron every few minutes.
+# Can be run manually or from a timer.
 set -euo pipefail
 
-WORKSPACE="$HOME/.openclaw/workspace"
-cd "$WORKSPACE"
+SCRIPT_DIR="$(cd "$(dirname "$0")/.." && pwd)"
+cd "$SCRIPT_DIR"
 
 # First, sync session transcripts so new conversations are picked up
-"$WORKSPACE/bin/sync-sessions" 2>/dev/null || true
+"$SCRIPT_DIR/bin/sync-sessions" 2>/dev/null || true
 
 # Check if there's anything to commit
 if git diff --quiet && git diff --cached --quiet && [ -z "$(git status --porcelain)" ]; then
   exit 0
 fi
 
-# Count what changed
-CHANGES=$(git status --porcelain | wc -l)
 HAS_SESSION=false
 HAS_OTHER=false
 if git status --porcelain | grep -q "^.M.*sessions/" || git status --porcelain | grep -q "^??.*sessions/"; then
@@ -28,7 +26,6 @@ fi
 # Build commit message
 MSG_PARTS=()
 if [ "$HAS_SESSION" = true ]; then
-  # Count which session files changed
   SESSION_FILES=$(git status --porcelain | grep "sessions/" | wc -l)
   MSG_PARTS+=("📝 session +${SESSION_FILES} file(s)")
 fi
@@ -37,18 +34,14 @@ if [ "$HAS_OTHER" = true ]; then
 fi
 
 if [ ${#MSG_PARTS[@]} -eq 0 ]; then
-  # Only browser noise — skip
   exit 0
 fi
 
-# Join parts
 COMMIT_MSG=$(IFS=" | "; echo "${MSG_PARTS[*]}")
 COMMIT_MSG="$COMMIT_MSG [auto]"
 
-# Stage everything (gitignore protects what shouldn't be there)
 git add -A 2>/dev/null || true
 
-# Commit and push
 if git commit -m "$COMMIT_MSG" --quiet 2>/dev/null; then
   git push origin main --quiet 2>/dev/null && echo "✅ Pushed: $COMMIT_MSG" || echo "⚠️  Commit OK, push failed (network?)"
 else
