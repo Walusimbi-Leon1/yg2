@@ -106,4 +106,19 @@ I am **Leon AI 4 (L4)** — the fourth iteration of Leon's AI agent. I run in th
 
 ---
 
+### 2026-06-26 — New Codespace + 9-router Fix
+- Provisioned a fresh codespace (codespaces-b80cd7)
+- Tailscale connected (current node online, 12 previous nodes + 1 Windows node + SGSS exit node)
+- OpenClaw auto-detected and running
+- Git Dashboard running (port 3030)
+- Docker browser container (l4-browser) running (port 3001 KasmVNC, port 9223 CDP)
+- Session symlink intact: workspace sessions/ → ~/.openclaw/agents/main/sessions/
+- **9-router was broken**: v0.5.12 starts then immediately exits on codespaces (Next.js SIGKILL).
+  - Pinned to **9router@0.5.8** — works with `--tray --skip-update --host 127.0.0.1` flags
+  - Updated `bin/start-9router` to use tray mode (no TTY needed)
+  - Updated `setup.sh` to pin version and re-pin if different
+- All 5 Big Pickel fallback providers still configured
+
+---
+
 _Last updated: 2026-06-26_

@@ -1,10 +1,10 @@
 {
   "agent:main:main": {
-    "sessionId": "2d7ed504-f27c-4cd2-b86c-466844b781ee",
-    "updatedAt": 1782472528681,
-    "sessionStartedAt": 1782454307353,
-    "lastInteractionAt": 1782472522092,
-    "sessionFile": "/workspaces/Codespace-3/sessions/2d7ed504-f27c-4cd2-b86c-466844b781ee.jsonl",
+    "sessionId": "6c6fce56-2524-46ce-bec6-0b80d6ab7879",
+    "updatedAt": 1782478589206,
+    "sessionStartedAt": 1782478586608,
+    "lastInteractionAt": 1782478586608,
+    "sessionFile": "/workspaces/Codespace-3/sessions/6c6fce56-2524-46ce-bec6-0b80d6ab7879.jsonl",
     "systemSent": true,
     "abortedLastRun": false,
     "chatType": "direct",
@@ -374,7 +374,8 @@
     "usageFamilySessionIds": [
       "df39d9ee-bfe1-4f65-bd44-6d985dafee98",
       "5594669d-411a-4945-a70c-2f7854f0d2a8",
-      "2d7ed504-f27c-4cd2-b86c-466844b781ee"
+      "2d7ed504-f27c-4cd2-b86c-466844b781ee",
+      "6c6fce56-2524-46ce-bec6-0b80d6ab7879"
     ],
     "compactionCount": 0,
     "compactionCheckpoints": [
@@ -494,6 +495,7 @@
     "model": "big-pickle",
     "cacheRead": 79744,
     "cacheWrite": 0,
+    "totalTokens": 0,
     "skillsSnapshot": {
       "skills": [
         {
@@ -550,7 +552,7 @@
           "name": "weather"
         }
       ],
-      "version": 1782468934792,
+      "version": 1782478495744,
       "promptFormatVersion": 1,
       "promptRef": {
         "version": 1,
@@ -559,16 +561,7 @@
         "bytes": 5732
       }
     },
-    "status": "done",
-    "startedAt": 1782472523879,
-    "contextTokens": 200000,
-    "inputTokens": 252,
-    "outputTokens": 332,
-    "estimatedCostUsd": 0,
-    "memoryFlushAt": 1782466782035,
-    "memoryFlushCompactionCount": 0,
-    "totalTokens": 79996,
-    "endedAt": 1782472528535,
-    "runtimeMs": 4656
+    "status": "running",
+    "startedAt": 1782478589075
   }
 }

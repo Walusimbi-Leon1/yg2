@@ -57,12 +57,15 @@ else
   echo "  ✅ OpenClaw $(openclaw --version | head -1 | grep -oP '[\d]+\.[\d]+\.[\d]+' || echo "installed")"
 fi
 
-# 9-router
+# 9-router (pinned to 0.5.8 — 0.5.12+ crashes on codespaces)
 if ! command -v 9router &>/dev/null; then
-  echo "  Installing 9-router..."
-  npm install -g 9router@latest
+  echo "  Installing 9-router (0.5.8)..."
+  npm install -g 9router@0.5.8
+elif [ "$(9router --version 2>/dev/null)" != "0.5.8" ]; then
+  echo "  Re-pinning 9-router to 0.5.8 (had $(9router --version 2>/dev/null))..."
+  npm install -g 9router@0.5.8
 else
-  echo "  ✅ 9-router $(9router --version 2>/dev/null || echo "installed")"
+  echo "  ✅ 9-router $(9router --version 2>/dev/null)"
 fi
 
 echo ""
