@@ -1,7 +1,7 @@
 {
   "agent:main:main": {
     "sessionId": "2d7ed504-f27c-4cd2-b86c-466844b781ee",
-    "updatedAt": 1782457182632,
+    "updatedAt": 1782457184448,
     "sessionStartedAt": 1782454307353,
     "lastInteractionAt": 1782457182432,
     "sessionFile": "/home/codespace/.openclaw/agents/main/sessions/2d7ed504-f27c-4cd2-b86c-466844b781ee.jsonl",
@@ -538,14 +538,12 @@
         "bytes": 5732
       }
     },
-    "status": "done",
-    "startedAt": 1782456946242,
+    "status": "running",
+    "startedAt": 1782457184348,
     "contextTokens": 200000,
     "inputTokens": 3866,
     "outputTokens": 1265,
     "estimatedCostUsd": 0,
-    "endedAt": 1782456968443,
-    "runtimeMs": 22201,
     "restartRecoveryDeliveryRunId": "434efb9f-85ca-4501-b7a8-db63702343f2"
   }
 }

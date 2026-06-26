@@ -68,14 +68,15 @@ CONTAINER_ID=$(docker run -d \
   --name "$CONTAINER_NAME" \
   --hostname "l4-browser" \
   --restart unless-stopped \
-  --shm-size=2gb \
+  --shm-size=8gb \
   -p "$BROWSER_PORT:3001" \
   -p "$CDP_PORT:$SOCAT_PORT" \
   -e TITLE="L4 Remote Browser" \
-  -e CHROME_CLI="--remote-debugging-port=9222 --no-first-run --disable-features=TranslateUI --disable-translate --disable-fre --disable-search-engine-choice-screen" \
+  -e CHROME_CLI="--remote-debugging-port=9222 --no-first-run --disable-features=TranslateUI --disable-translate --disable-fre --disable-search-engine-choice-screen --enable-gpu-compositing --ignore-gpu-blocklist --enable-unsafe-swiftshader --num-raster-threads=4" \
   -e DISPLAY_HEIGHT=720 \
   -e DISPLAY_WIDTH=1280 \
   -e DISPLAY_DPI=96 \
+  -e QUALITY=60 \
   -e PUID=1000 \
   -e PGID=1000 \
   -e LC_ALL=en_US.UTF-8 \
