@@ -1,10 +1,9 @@
 {
   "agent:main:main": {
-    "sessionId": "6c6fce56-2524-46ce-bec6-0b80d6ab7879",
-    "updatedAt": 1782507842466,
-    "sessionStartedAt": 1782478586608,
-    "lastInteractionAt": 1782507841718,
-    "sessionFile": "/workspaces/Codespace-3/sessions/6c6fce56-2524-46ce-bec6-0b80d6ab7879.jsonl",
+    "sessionId": "f944b4b2-d41f-41d6-88c4-93bf068b4db9",
+    "updatedAt": 1782543006421,
+    "sessionStartedAt": 1782542241613,
+    "lastInteractionAt": 1782543005813,
     "systemSent": true,
     "abortedLastRun": false,
     "chatType": "direct",
@@ -22,8 +21,8 @@
     },
     "systemPromptReport": {
       "source": "run",
-      "generatedAt": 1782507265803,
-      "sessionId": "6c6fce56-2524-46ce-bec6-0b80d6ab7879",
+      "generatedAt": 1782542517918,
+      "sessionId": "f944b4b2-d41f-41d6-88c4-93bf068b4db9",
       "sessionKey": "agent:main:main",
       "provider": "big-pickel3",
       "model": "big-pickle",
@@ -42,10 +41,10 @@
         "sandboxed": false
       },
       "systemPrompt": {
-        "chars": 38412,
-        "hash": "edb8b686c442d79b99144d084ba4b4c3b5b6ff2e61af08c9ff82d3c8691084ad",
-        "projectContextChars": 19895,
-        "nonProjectContextChars": 18517
+        "chars": 33021,
+        "hash": "b7040ac82b930ea08eedf11f9bed7194d8d7cc7327ddf392ac0cad8d97877053",
+        "projectContextChars": 13871,
+        "nonProjectContextChars": 19150
       },
       "injectedWorkspaceFiles": [
         {
@@ -68,8 +67,8 @@
           "name": "TOOLS.md",
           "path": "/workspaces/Codespace-3/TOOLS.md",
           "missing": false,
-          "rawChars": 1601,
-          "injectedChars": 1601,
+          "rawChars": 910,
+          "injectedChars": 910,
           "truncated": false
         },
         {
@@ -97,11 +96,11 @@
           "truncated": false
         },
         {
-          "name": "MEMORY.md",
-          "path": "/workspaces/Codespace-3/MEMORY.md",
+          "name": "BOOTSTRAP.md",
+          "path": "/workspaces/Codespace-3/BOOTSTRAP.md",
           "missing": false,
-          "rawChars": 6700,
-          "injectedChars": 6700,
+          "rawChars": 1510,
+          "injectedChars": 1510,
           "truncated": false
         }
       ],
@@ -354,7 +353,7 @@
         ]
       },
       "currentTurn": {
-        "promptChars": 203,
+        "promptChars": 959,
         "runtimeContextChars": 0
       }
     },
@@ -483,13 +482,11 @@
       }
     ],
     "memoryFlushFailureCount": 0,
-    "cacheRead": 128384,
+    "cacheRead": 60672,
     "cacheWrite": 0,
-    "totalTokens": 128443,
-    "status": "running",
-    "startedAt": 1782507842433,
-    "inputTokens": 13281,
-    "outputTokens": 19171,
+    "totalTokens": 60758,
+    "inputTokens": 39570,
+    "outputTokens": 2892,
     "estimatedCostUsd": 0,
     "modelProvider": "big-pickel3",
     "model": "big-pickle",
@@ -541,7 +538,7 @@
           "name": "weather"
         }
       ],
-      "version": 1782503791522,
+      "version": 1782542236241,
       "promptFormatVersion": 1,
       "promptRef": {
         "version": 1,
@@ -550,6 +547,30 @@
         "bytes": 4841
       }
     },
-    "restartRecoveryDeliveryRunId": "bd6a192a-0163-42c4-bad2-9179e22a04ac"
+    "sessionFile": "/root/projects/Codespace-3/sessions/f944b4b2-d41f-41d6-88c4-93bf068b4db9.jsonl",
+    "status": "running",
+    "startedAt": 1782543006388,
+    "agentHarnessId": "openclaw",
+    "contextBudgetStatus": {
+      "schemaVersion": 1,
+      "source": "pre-prompt-estimate",
+      "updatedAt": 1782542242372,
+      "provider": "big-pickel3",
+      "model": "big-pickle",
+      "route": "fits",
+      "shouldCompact": false,
+      "estimatedPromptTokens": 9796,
+      "contextTokenBudget": 200000,
+      "promptBudgetBeforeReserve": 180000,
+      "reserveTokens": 20000,
+      "effectiveReserveTokens": 20000,
+      "remainingPromptBudgetTokens": 170204,
+      "overflowTokens": 0,
+      "toolResultReducibleChars": 0,
+      "messageCount": 0,
+      "unwindowedMessageCount": 0,
+      "sessionId": "f944b4b2-d41f-41d6-88c4-93bf068b4db9"
+    },
+    "restartRecoveryDeliveryRunId": "71b3e367-e20b-4fef-895b-74a3f5146fd2"
   }
 }
