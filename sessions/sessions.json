@@ -1,9 +1,9 @@
 {
   "agent:main:main": {
     "sessionId": "f944b4b2-d41f-41d6-88c4-93bf068b4db9",
-    "updatedAt": 1782543006421,
+    "updatedAt": 1782544100732,
     "sessionStartedAt": 1782542241613,
-    "lastInteractionAt": 1782543005813,
+    "lastInteractionAt": 1782544099692,
     "systemSent": true,
     "abortedLastRun": false,
     "chatType": "direct",
@@ -491,6 +491,30 @@
     "modelProvider": "big-pickel3",
     "model": "big-pickle",
     "contextTokens": 200000,
+    "sessionFile": "/root/projects/Codespace-3/sessions/f944b4b2-d41f-41d6-88c4-93bf068b4db9.jsonl",
+    "status": "running",
+    "startedAt": 1782544100662,
+    "agentHarnessId": "openclaw",
+    "contextBudgetStatus": {
+      "schemaVersion": 1,
+      "source": "pre-prompt-estimate",
+      "updatedAt": 1782542242372,
+      "provider": "big-pickel3",
+      "model": "big-pickle",
+      "route": "fits",
+      "shouldCompact": false,
+      "estimatedPromptTokens": 9796,
+      "contextTokenBudget": 200000,
+      "promptBudgetBeforeReserve": 180000,
+      "reserveTokens": 20000,
+      "effectiveReserveTokens": 20000,
+      "remainingPromptBudgetTokens": 170204,
+      "overflowTokens": 0,
+      "toolResultReducibleChars": 0,
+      "messageCount": 0,
+      "unwindowedMessageCount": 0,
+      "sessionId": "f944b4b2-d41f-41d6-88c4-93bf068b4db9"
+    },
     "skillsSnapshot": {
       "skills": [
         {
@@ -538,7 +562,7 @@
           "name": "weather"
         }
       ],
-      "version": 1782542236241,
+      "version": 1782543569895,
       "promptFormatVersion": 1,
       "promptRef": {
         "version": 1,
@@ -547,30 +571,6 @@
         "bytes": 4841
       }
     },
-    "sessionFile": "/root/projects/Codespace-3/sessions/f944b4b2-d41f-41d6-88c4-93bf068b4db9.jsonl",
-    "status": "running",
-    "startedAt": 1782543006388,
-    "agentHarnessId": "openclaw",
-    "contextBudgetStatus": {
-      "schemaVersion": 1,
-      "source": "pre-prompt-estimate",
-      "updatedAt": 1782542242372,
-      "provider": "big-pickel3",
-      "model": "big-pickle",
-      "route": "fits",
-      "shouldCompact": false,
-      "estimatedPromptTokens": 9796,
-      "contextTokenBudget": 200000,
-      "promptBudgetBeforeReserve": 180000,
-      "reserveTokens": 20000,
-      "effectiveReserveTokens": 20000,
-      "remainingPromptBudgetTokens": 170204,
-      "overflowTokens": 0,
-      "toolResultReducibleChars": 0,
-      "messageCount": 0,
-      "unwindowedMessageCount": 0,
-      "sessionId": "f944b4b2-d41f-41d6-88c4-93bf068b4db9"
-    },
-    "restartRecoveryDeliveryRunId": "71b3e367-e20b-4fef-895b-74a3f5146fd2"
+    "restartRecoveryDeliveryRunId": "ef03dfa7-4849-428b-876a-c5361b922e9c"
   }
 }
