@@ -41,21 +41,32 @@ Add whatever helps you do your job. This is your cheat sheet.
 
 ## Railway (current host)
 
-- **Host:** Railway Debian 12 container (2212c8370b61)
+- **Host:** Railway Debian 12 container (c7149d1cf604)
 - **CPU:** 48 cores
 - **Disk:** 2.9T (1.9T free)
-- **RAM:** (unknown — no free command)
-- **Tailscale IP:** 100.118.109.60
+- **Tailscale IP:** 100.124.226.92
 - **ttyd:** Port 8080 (web terminal, PID 1)
-- **Start command:** `bash /workspaces/Codespace-3/start-railway.sh`
-- **No Docker, no systemd** — services run via nohup
+- **Start command:** Baked into Docker image via l4-railway repo entrypoint
+- **No systemd** — services run via nohup from entrypoint
+- **Docker image source:** https://github.com/Walusimbi-Leon1/l4-railway
+- **Workspace repo:** https://github.com/Walusimbi-Leon1/Codespace-3
+
+### Persistence (survives redeploy)
+- **Workspace path:** `/workspaces/Codespace-3` → `/root/projects/Codespace-3` (symlink)
+- **Sessions:** Symlinked to `$WORKDIR/sessions/` (git-tracked)
+- **OpenClaw state:** Symlinked to `$WORKDIR/.openclaw-state/` (gitignored)
+- **Railway Volume:** Auto-detected — if mounted, OpenClaw state goes to volume instead
+
+### Actual workspace
+- `/root/projects/Codespace-3` — the real git repo
+- `/workspaces/Codespace-3` — symlink to real repo (for OpenClaw compatibility)
 
 ### Services
 - **OpenClaw:** http://127.0.0.1:18789
 - **9-router:** http://127.0.0.1:20128 (v0.5.8 — pinned, use `--host 127.0.0.1 --no-browser` flags)
 - **Git Dashboard:** http://127.0.0.1:3030
 - **Browser CDP:** http://127.0.0.1:9223
-- **Browser CLI:** `cd /workspaces/Codespace-3/browser && node browser.js status`
+- **Browser CLI:** `cd /root/projects/Codespace-3/browser && node browser.js status`
 
 ## Related
 
