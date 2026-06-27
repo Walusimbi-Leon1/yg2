@@ -1,7 +1,7 @@
 {
   "agent:main:main": {
     "sessionId": "f944b4b2-d41f-41d6-88c4-93bf068b4db9",
-    "updatedAt": 1782544100732,
+    "updatedAt": 1782544157492,
     "sessionStartedAt": 1782542241613,
     "lastInteractionAt": 1782544099692,
     "systemSent": true,
@@ -21,7 +21,7 @@
     },
     "systemPromptReport": {
       "source": "run",
-      "generatedAt": 1782542517918,
+      "generatedAt": 1782544100401,
       "sessionId": "f944b4b2-d41f-41d6-88c4-93bf068b4db9",
       "sessionKey": "agent:main:main",
       "provider": "big-pickel3",
@@ -41,10 +41,10 @@
         "sandboxed": false
       },
       "systemPrompt": {
-        "chars": 33021,
-        "hash": "b7040ac82b930ea08eedf11f9bed7194d8d7cc7327ddf392ac0cad8d97877053",
-        "projectContextChars": 13871,
-        "nonProjectContextChars": 19150
+        "chars": 39037,
+        "hash": "599e4fc152d6c963e2736d85803460984bc87187547a93f355569cc98d9d8895",
+        "projectContextChars": 20520,
+        "nonProjectContextChars": 18517
       },
       "injectedWorkspaceFiles": [
         {
@@ -67,8 +67,8 @@
           "name": "TOOLS.md",
           "path": "/workspaces/Codespace-3/TOOLS.md",
           "missing": false,
-          "rawChars": 910,
-          "injectedChars": 910,
+          "rawChars": 2226,
+          "injectedChars": 2226,
           "truncated": false
         },
         {
@@ -96,11 +96,11 @@
           "truncated": false
         },
         {
-          "name": "BOOTSTRAP.md",
-          "path": "/workspaces/Codespace-3/BOOTSTRAP.md",
+          "name": "MEMORY.md",
+          "path": "/workspaces/Codespace-3/MEMORY.md",
           "missing": false,
-          "rawChars": 1510,
-          "injectedChars": 1510,
+          "rawChars": 6700,
+          "injectedChars": 6700,
           "truncated": false
         }
       ],
@@ -353,8 +353,8 @@
         ]
       },
       "currentTurn": {
-        "promptChars": 959,
-        "runtimeContextChars": 0
+        "promptChars": 2,
+        "runtimeContextChars": 96
       }
     },
     "totalTokensFresh": true,
@@ -482,17 +482,17 @@
       }
     ],
     "memoryFlushFailureCount": 0,
-    "cacheRead": 60672,
+    "cacheRead": 80768,
     "cacheWrite": 0,
-    "totalTokens": 60758,
-    "inputTokens": 39570,
-    "outputTokens": 2892,
+    "totalTokens": 81317,
+    "inputTokens": 76091,
+    "outputTokens": 3103,
     "estimatedCostUsd": 0,
     "modelProvider": "big-pickel3",
     "model": "big-pickle",
     "contextTokens": 200000,
     "sessionFile": "/root/projects/Codespace-3/sessions/f944b4b2-d41f-41d6-88c4-93bf068b4db9.jsonl",
-    "status": "running",
+    "status": "done",
     "startedAt": 1782544100662,
     "agentHarnessId": "openclaw",
     "contextBudgetStatus": {
@@ -571,6 +571,7 @@
         "bytes": 4841
       }
     },
-    "restartRecoveryDeliveryRunId": "ef03dfa7-4849-428b-876a-c5361b922e9c"
+    "endedAt": 1782544157435,
+    "runtimeMs": 56773
   }
 }
