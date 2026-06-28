@@ -1,9 +1,9 @@
 {
   "agent:main:main": {
     "sessionId": "47fefcd1-028f-4801-8343-fd2286948f63",
-    "updatedAt": 1782674470597,
+    "updatedAt": 1782683894271,
     "sessionStartedAt": 1782632129649,
-    "lastInteractionAt": 1782674401495,
+    "lastInteractionAt": 1782683893395,
     "systemSent": true,
     "abortedLastRun": false,
     "chatType": "direct",
@@ -21,7 +21,7 @@
     },
     "systemPromptReport": {
       "source": "run",
-      "generatedAt": 1782674401868,
+      "generatedAt": 1782680200769,
       "sessionId": "47fefcd1-028f-4801-8343-fd2286948f63",
       "sessionKey": "agent:main:main",
       "provider": "big-pickel3",
@@ -353,7 +353,7 @@
         ]
       },
       "currentTurn": {
-        "promptChars": 1091,
+        "promptChars": 115,
         "runtimeContextChars": 0
       }
     },
@@ -484,9 +484,9 @@
       }
     ],
     "memoryFlushFailureCount": 0,
-    "cacheRead": 91008,
+    "cacheRead": 108544,
     "cacheWrite": 0,
-    "totalTokens": 91067,
+    "totalTokens": 108641,
     "modelProvider": "big-pickel3",
     "model": "big-pickle",
     "sessionFile": "/root/projects/Codespace-3/sessions/47fefcd1-028f-4801-8343-fd2286948f63.jsonl",
@@ -547,13 +547,12 @@
         "bytes": 4841
       }
     },
-    "status": "done",
-    "startedAt": 1782674402070,
+    "status": "running",
+    "startedAt": 1782683894238,
     "contextTokens": 200000,
-    "inputTokens": 6019,
-    "outputTokens": 3589,
+    "inputTokens": 87407,
+    "outputTokens": 4950,
     "estimatedCostUsd": 0,
-    "endedAt": 1782674470536,
-    "runtimeMs": 68466
+    "restartRecoveryDeliveryRunId": "7e322fee-175f-49f3-8dda-a1b03ad3efcb"
   }
 }
