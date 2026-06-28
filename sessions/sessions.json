@@ -1,9 +1,9 @@
 {
   "agent:main:main": {
     "sessionId": "47fefcd1-028f-4801-8343-fd2286948f63",
-    "updatedAt": 1782683894271,
+    "updatedAt": 1782684654362,
     "sessionStartedAt": 1782632129649,
-    "lastInteractionAt": 1782683893395,
+    "lastInteractionAt": 1782684535280,
     "systemSent": true,
     "abortedLastRun": false,
     "chatType": "direct",
@@ -21,7 +21,7 @@
     },
     "systemPromptReport": {
       "source": "run",
-      "generatedAt": 1782680200769,
+      "generatedAt": 1782684646275,
       "sessionId": "47fefcd1-028f-4801-8343-fd2286948f63",
       "sessionKey": "agent:main:main",
       "provider": "big-pickel3",
@@ -41,10 +41,10 @@
         "sandboxed": false
       },
       "systemPrompt": {
-        "chars": 39037,
-        "hash": "9aa8cc985a8204886e38b6d7de3e1f928dbf69c721ffb0547225a247d37731dd",
+        "chars": 39234,
+        "hash": "de29523f8361988514f0ae32bb0ac90d83e0f6f67793f759fd168dde62724914",
         "projectContextChars": 20520,
-        "nonProjectContextChars": 18517
+        "nonProjectContextChars": 18714
       },
       "injectedWorkspaceFiles": [
         {
@@ -353,7 +353,7 @@
         ]
       },
       "currentTurn": {
-        "promptChars": 115,
+        "promptChars": 25,
         "runtimeContextChars": 0
       }
     },
@@ -484,9 +484,9 @@
       }
     ],
     "memoryFlushFailureCount": 0,
-    "cacheRead": 108544,
+    "cacheRead": 9856,
     "cacheWrite": 0,
-    "totalTokens": 108641,
+    "totalTokens": 114781,
     "modelProvider": "big-pickel3",
     "model": "big-pickle",
     "sessionFile": "/root/projects/Codespace-3/sessions/47fefcd1-028f-4801-8343-fd2286948f63.jsonl",
@@ -538,7 +538,7 @@
           "name": "weather"
         }
       ],
-      "version": 1782629971899,
+      "version": 1782684536449,
       "promptFormatVersion": 1,
       "promptRef": {
         "version": 1,
@@ -547,12 +547,13 @@
         "bytes": 4841
       }
     },
-    "status": "running",
-    "startedAt": 1782683894238,
+    "status": "done",
+    "startedAt": 1782684646499,
     "contextTokens": 200000,
-    "inputTokens": 87407,
-    "outputTokens": 4950,
+    "inputTokens": 104925,
+    "outputTokens": 23,
     "estimatedCostUsd": 0,
-    "restartRecoveryDeliveryRunId": "7e322fee-175f-49f3-8dda-a1b03ad3efcb"
+    "endedAt": 1782684654322,
+    "runtimeMs": 7823
   }
 }
