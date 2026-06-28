@@ -1,9 +1,9 @@
 {
   "agent:main:main": {
-    "sessionId": "f944b4b2-d41f-41d6-88c4-93bf068b4db9",
-    "updatedAt": 1782578584268,
-    "sessionStartedAt": 1782542241613,
-    "lastInteractionAt": 1782578548892,
+    "sessionId": "47fefcd1-028f-4801-8343-fd2286948f63",
+    "updatedAt": 1782632591284,
+    "sessionStartedAt": 1782632129649,
+    "lastInteractionAt": 1782632582346,
     "systemSent": true,
     "abortedLastRun": false,
     "chatType": "direct",
@@ -21,8 +21,8 @@
     },
     "systemPromptReport": {
       "source": "run",
-      "generatedAt": 1782578549311,
-      "sessionId": "f944b4b2-d41f-41d6-88c4-93bf068b4db9",
+      "generatedAt": 1782632582760,
+      "sessionId": "47fefcd1-028f-4801-8343-fd2286948f63",
       "sessionKey": "agent:main:main",
       "provider": "big-pickel3",
       "model": "big-pickle",
@@ -42,7 +42,7 @@
       },
       "systemPrompt": {
         "chars": 39037,
-        "hash": "599e4fc152d6c963e2736d85803460984bc87187547a93f355569cc98d9d8895",
+        "hash": "9aa8cc985a8204886e38b6d7de3e1f928dbf69c721ffb0547225a247d37731dd",
         "projectContextChars": 20520,
         "nonProjectContextChars": 18517
       },
@@ -353,7 +353,7 @@
         ]
       },
       "currentTurn": {
-        "promptChars": 895,
+        "promptChars": 74,
         "runtimeContextChars": 0
       }
     },
@@ -366,7 +366,9 @@
       "df39d9ee-bfe1-4f65-bd44-6d985dafee98",
       "5594669d-411a-4945-a70c-2f7854f0d2a8",
       "2d7ed504-f27c-4cd2-b86c-466844b781ee",
-      "6c6fce56-2524-46ce-bec6-0b80d6ab7879"
+      "6c6fce56-2524-46ce-bec6-0b80d6ab7879",
+      "f944b4b2-d41f-41d6-88c4-93bf068b4db9",
+      "47fefcd1-028f-4801-8343-fd2286948f63"
     ],
     "compactionCount": 0,
     "compactionCheckpoints": [
@@ -482,39 +484,13 @@
       }
     ],
     "memoryFlushFailureCount": 0,
-    "cacheRead": 102400,
+    "cacheRead": 18944,
     "cacheWrite": 0,
-    "totalTokens": 102554,
-    "inputTokens": 11015,
-    "outputTokens": 1706,
-    "estimatedCostUsd": 0,
+    "totalTokens": 40960,
     "modelProvider": "big-pickel3",
     "model": "big-pickle",
-    "contextTokens": 200000,
-    "sessionFile": "/root/projects/Codespace-3/sessions/f944b4b2-d41f-41d6-88c4-93bf068b4db9.jsonl",
-    "status": "done",
-    "startedAt": 1782578549552,
+    "sessionFile": "/root/projects/Codespace-3/sessions/47fefcd1-028f-4801-8343-fd2286948f63.jsonl",
     "agentHarnessId": "openclaw",
-    "contextBudgetStatus": {
-      "schemaVersion": 1,
-      "source": "pre-prompt-estimate",
-      "updatedAt": 1782542242372,
-      "provider": "big-pickel3",
-      "model": "big-pickle",
-      "route": "fits",
-      "shouldCompact": false,
-      "estimatedPromptTokens": 9796,
-      "contextTokenBudget": 200000,
-      "promptBudgetBeforeReserve": 180000,
-      "reserveTokens": 20000,
-      "effectiveReserveTokens": 20000,
-      "remainingPromptBudgetTokens": 170204,
-      "overflowTokens": 0,
-      "toolResultReducibleChars": 0,
-      "messageCount": 0,
-      "unwindowedMessageCount": 0,
-      "sessionId": "f944b4b2-d41f-41d6-88c4-93bf068b4db9"
-    },
     "skillsSnapshot": {
       "skills": [
         {
@@ -562,7 +538,7 @@
           "name": "weather"
         }
       ],
-      "version": 1782544100434,
+      "version": 1782629971899,
       "promptFormatVersion": 1,
       "promptRef": {
         "version": 1,
@@ -571,21 +547,13 @@
         "bytes": 4841
       }
     },
-    "goal": {
-      "schemaVersion": 1,
-      "id": "1bdbf26d-7ac1-441c-9d65-fe9812c37adc",
-      "objective": "Build and deploy yougamble1: A pattern analyzer website using IF logic on investment data (crypto, stocks, commodities)",
-      "status": "complete",
-      "createdAt": 1782570991981,
-      "updatedAt": 1782571193095,
-      "tokenStart": 116377,
-      "tokenStartFresh": true,
-      "tokensUsed": 14961,
-      "continuationTurns": 0,
-      "lastStatusNote": "yougamble1 repo created, pattern analyzer built and deployed to GitHub Pages",
-      "completedAt": 1782571193095
-    },
-    "endedAt": 1782578584207,
-    "runtimeMs": 34655
+    "status": "done",
+    "startedAt": 1782632582952,
+    "contextTokens": 200000,
+    "inputTokens": 22016,
+    "outputTokens": 540,
+    "estimatedCostUsd": 0,
+    "endedAt": 1782632591239,
+    "runtimeMs": 8287
   }
 }
