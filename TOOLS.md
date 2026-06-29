@@ -39,6 +39,21 @@ Skills are shared. Your setup is yours. Keeping them apart means you can update 
 
 Add whatever helps you do your job. This is your cheat sheet.
 
+## Tailscale Machines
+
+### instance-20260629-070242 (newer, preferred for builds)
+- **Tailscale IP:** 100.116.19.120
+- **Host:** Ubuntu 26.04 LTS on GCP
+- **CPU:** 4 cores, **RAM:** 15GB
+- **Disk:** 8.6GB (6.5GB free)
+- **Access:** `tailscale ssh 100.116.19.120`
+- **SSH:** root access, no password needed
+
+### 169-1
+- **Tailscale IP:** 100.90.216.14
+- **Host:** Ubuntu 22.04 (2 cores, 1.9GB RAM)
+- **Access:** `tailscale ssh 100.90.216.14`
+
 ## Railway (current host)
 
 - **Host:** Railway Debian 12 container (c7149d1cf604)

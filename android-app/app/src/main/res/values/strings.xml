@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">L4 App</string>
+    <string name="hello_l4">Hello from L4 🥒</string>
+    <string name="tap_me">Tap Me!</string>
+    <string name="tapped">Tapped %d times!</string>
+</resources>
