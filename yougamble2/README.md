@@ -4,7 +4,11 @@
 
 2006–2026 · 20 seasons · 7,600+ matches
 
-Analyzes historical Premier League goal patterns using custom `IF → THEN` logic rules. Built-in API key from football-data.org for live data, plus a comprehensive historical dataset for deep pattern analysis.
+Analyzes historical Premier League goal patterns using custom `IF → THEN` logic rules.
+
+## Live Demo
+
+[https://walusimbi-leon1.github.io/yg2/](https://walusimbi-leon1.github.io/yg2/)
 
 ## Features
 
@@ -41,12 +45,6 @@ Create your own IF→THEN rules:
 - Browse 20 years of Premier League matches for any team
 - Filter by home/away/wins/losses/draws/goals
 
-## Data
-
-- **Historical:** 2006/07 – 2025/26 (20 seasons) with realistic generated match data based on team strength ratings
-- **Live:** football-data.org API (key embedded) for current season data
-- Team strength ratings calibrated per season for realistic result distribution
-
 ## How to Use
 
 1. **Select a team** from the dropdown
@@ -55,10 +53,6 @@ Create your own IF→THEN rules:
 4. Browse built-in pattern results
 5. Go to **Pattern Builder** to create custom rules
 6. **Save** patterns you find useful
-
-## Live Demo
-
-[https://walusimbi-leon1.github.io/yougamble2/](https://walusimbi-leon1.github.io/yougamble2/)
 
 ## Legal
 
