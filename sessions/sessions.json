@@ -1,9 +1,9 @@
 {
   "agent:main:main": {
     "sessionId": "01350e87-ba36-465e-bcf4-658c9cc2ed51",
-    "updatedAt": 1782733307950,
+    "updatedAt": 1782733738522,
     "sessionStartedAt": 1782711069008,
-    "lastInteractionAt": 1782733307249,
+    "lastInteractionAt": 1782733718252,
     "systemSent": true,
     "abortedLastRun": false,
     "chatType": "direct",
@@ -21,7 +21,7 @@
     },
     "systemPromptReport": {
       "source": "run",
-      "generatedAt": 1782732773967,
+      "generatedAt": 1782733718653,
       "sessionId": "01350e87-ba36-465e-bcf4-658c9cc2ed51",
       "sessionKey": "agent:main:main",
       "provider": "big-pickel4",
@@ -353,7 +353,7 @@
         ]
       },
       "currentTurn": {
-        "promptChars": 222,
+        "promptChars": 2,
         "runtimeContextChars": 0
       }
     },
@@ -485,9 +485,9 @@
       }
     ],
     "memoryFlushFailureCount": 0,
-    "cacheRead": 107648,
+    "cacheRead": 110336,
     "cacheWrite": 0,
-    "totalTokens": 107792,
+    "totalTokens": 110417,
     "sessionFile": "/root/projects/Codespace-3/sessions/01350e87-ba36-465e-bcf4-658c9cc2ed51.jsonl",
     "agentHarnessId": "openclaw",
     "skillsSnapshot": {
@@ -546,15 +546,16 @@
         "bytes": 4841
       }
     },
-    "status": "running",
-    "startedAt": 1782733307915,
-    "inputTokens": 2526,
-    "outputTokens": 1892,
+    "status": "done",
+    "startedAt": 1782733718846,
+    "inputTokens": 4764,
+    "outputTokens": 320,
     "estimatedCostUsd": 0,
     "modelProvider": "big-pickel4",
     "model": "big-pickle",
     "contextTokens": 200000,
-    "restartRecoveryDeliveryRunId": "f39ee5e8-d692-42d7-903a-bed6c94fa469"
+    "endedAt": 1782733738457,
+    "runtimeMs": 19611
   },
   "agent:main:cron:5026a0a2-544d-4481-9748-08e0d5bc626c": {
     "label": "Cron: railway-keepalive",
