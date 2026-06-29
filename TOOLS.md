@@ -54,6 +54,22 @@ Add whatever helps you do your job. This is your cheat sheet.
 - **Host:** Ubuntu 22.04 (2 cores, 1.9GB RAM)
 - **Access:** `tailscale ssh 100.90.216.14`
 
+### CloudShell (AWS)
+- **Tailscale IP:** 100.105.40.3
+- **Host:** Amazon Linux 2023 on AWS eu-north-1
+- **Access:** `tailscale ssh 100.105.40.3`
+- **Note:** CloudShell ephemeral — may lose connection if session times out
+
+### l4-cloud-vm (AWS EC2 - persistent)
+- **Tailscale IP:** 100.114.90.6
+- **Host:** Amazon Linux 2023 on AWS eu-north-1
+- **Instance:** `i-0b8f5aaee1f2c7f71`
+- **Type:** t3.micro (free tier)
+- **Public IP:** 13.48.84.197
+- **Access:** `tailscale ssh 100.114.90.6`
+- **Note:** Should stay up 24/7 - persistent EC2 instance
+- **Exit node:** Active — route traffic through it from any Tailscale client
+
 ## Railway (current host)
 
 - **Host:** Railway Debian 12 container (c7149d1cf604)

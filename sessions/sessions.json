@@ -1,9 +1,9 @@
 {
   "agent:main:main": {
     "sessionId": "01350e87-ba36-465e-bcf4-658c9cc2ed51",
-    "updatedAt": 1782717411841,
+    "updatedAt": 1782723369450,
     "sessionStartedAt": 1782711069008,
-    "lastInteractionAt": 1782717411209,
+    "lastInteractionAt": 1782723355551,
     "systemSent": true,
     "abortedLastRun": false,
     "chatType": "direct",
@@ -21,7 +21,7 @@
     },
     "systemPromptReport": {
       "source": "run",
-      "generatedAt": 1782717014216,
+      "generatedAt": 1782723355931,
       "sessionId": "01350e87-ba36-465e-bcf4-658c9cc2ed51",
       "sessionKey": "agent:main:main",
       "provider": "big-pickel4",
@@ -41,9 +41,9 @@
         "sandboxed": false
       },
       "systemPrompt": {
-        "chars": 39037,
-        "hash": "0dc74d81860e3f567f6cd12308861c7cd30a2c804f10bcd4eb151162f26a78f1",
-        "projectContextChars": 20520,
+        "chars": 40024,
+        "hash": "2ef8ab4e361839aea6f9b1ab995f878ec5f44667dff6974cbb6296ccd75f4521",
+        "projectContextChars": 21507,
         "nonProjectContextChars": 18517
       },
       "injectedWorkspaceFiles": [
@@ -67,8 +67,8 @@
           "name": "TOOLS.md",
           "path": "/workspaces/Codespace-3/TOOLS.md",
           "missing": false,
-          "rawChars": 2226,
-          "injectedChars": 2226,
+          "rawChars": 3213,
+          "injectedChars": 3213,
           "truncated": false
         },
         {
@@ -353,7 +353,7 @@
         ]
       },
       "currentTurn": {
-        "promptChars": 106,
+        "promptChars": 34,
         "runtimeContextChars": 0
       }
     },
@@ -485,9 +485,9 @@
       }
     ],
     "memoryFlushFailureCount": 0,
-    "cacheRead": 75136,
+    "cacheRead": 112896,
     "cacheWrite": 0,
-    "totalTokens": 75543,
+    "totalTokens": 112930,
     "sessionFile": "/root/projects/Codespace-3/sessions/01350e87-ba36-465e-bcf4-658c9cc2ed51.jsonl",
     "agentHarnessId": "openclaw",
     "skillsSnapshot": {
@@ -546,24 +546,25 @@
         "bytes": 4841
       }
     },
-    "status": "running",
-    "startedAt": 1782717411810,
-    "inputTokens": 2132,
-    "outputTokens": 520,
+    "status": "done",
+    "startedAt": 1782723356113,
+    "inputTokens": 3060,
+    "outputTokens": 723,
     "estimatedCostUsd": 0,
     "modelProvider": "big-pickel4",
     "model": "big-pickle",
     "contextTokens": 200000,
-    "restartRecoveryDeliveryRunId": "2605883c-c9ea-458a-8e0c-7d54bf85bde5"
+    "endedAt": 1782723369365,
+    "runtimeMs": 13252
   },
   "agent:main:cron:5026a0a2-544d-4481-9748-08e0d5bc626c": {
     "label": "Cron: railway-keepalive",
-    "sessionId": "888c11f4-9ff5-4f9a-903b-5a6d11cbf330",
-    "updatedAt": 1782716819107,
-    "sessionStartedAt": 1782716819002,
-    "lastInteractionAt": 1782716819002,
+    "sessionId": "d293004b-5a57-420b-8d2b-38f7b707e747",
+    "updatedAt": 1782720559578,
+    "sessionStartedAt": 1782720559481,
+    "lastInteractionAt": 1782720559481,
     "systemSent": true,
-    "sessionFile": "/root/projects/Codespace-3/sessions/888c11f4-9ff5-4f9a-903b-5a6d11cbf330.jsonl",
+    "sessionFile": "/root/projects/Codespace-3/sessions/d293004b-5a57-420b-8d2b-38f7b707e747.jsonl",
     "skillsSnapshot": {
       "skills": [
         {
@@ -624,9 +625,9 @@
     "model": "oc/big-pickle",
     "systemPromptReport": {
       "source": "run",
-      "generatedAt": 1782716952760,
-      "sessionId": "888c11f4-9ff5-4f9a-903b-5a6d11cbf330",
-      "sessionKey": "agent:main:cron:5026a0a2-544d-4481-9748-08e0d5bc626c:run:888c11f4-9ff5-4f9a-903b-5a6d11cbf330",
+      "generatedAt": 1782720693119,
+      "sessionId": "d293004b-5a57-420b-8d2b-38f7b707e747",
+      "sessionKey": "agent:main:cron:5026a0a2-544d-4481-9748-08e0d5bc626c:run:d293004b-5a57-420b-8d2b-38f7b707e747",
       "provider": "9router",
       "model": "oc/big-pickle",
       "workspaceDir": "/workspaces/Codespace-3",
@@ -644,9 +645,9 @@
         "sandboxed": false
       },
       "systemPrompt": {
-        "chars": 20976,
-        "hash": "ee7090d7c3388fe18ba2afd76b922272c74c155d4fb55f081b13d92e295ce11d",
-        "projectContextChars": 14267,
+        "chars": 21963,
+        "hash": "99960a287b592f2072d9d3959ac07aa559f03a9d2adea596b93027ec8e523fce",
+        "projectContextChars": 15254,
         "nonProjectContextChars": 6709
       },
       "injectedWorkspaceFiles": [
@@ -670,8 +671,8 @@
           "name": "TOOLS.md",
           "path": "/workspaces/Codespace-3/TOOLS.md",
           "missing": false,
-          "rawChars": 2226,
-          "injectedChars": 2226,
+          "rawChars": 3213,
+          "injectedChars": 3213,
           "truncated": false
         },
         {
@@ -944,13 +945,6 @@
         "runtimeContextChars": 0
       }
     },
-    "contextTokens": 200000,
-    "inputTokens": 13394,
-    "outputTokens": 226,
-    "totalTokens": 16500,
-    "totalTokensFresh": true,
-    "cacheRead": 19456,
-    "cacheWrite": 0,
-    "estimatedCostUsd": 0
+    "contextTokens": 200000
   }
 }
