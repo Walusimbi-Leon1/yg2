@@ -70,6 +70,13 @@ Add whatever helps you do your job. This is your cheat sheet.
 - **Note:** Should stay up 24/7 - persistent EC2 instance
 - **Exit node:** Active — route traffic through it from any Tailscale client
 
+### cs-456245791685-default
+- **Tailscale IP:** 100.118.225.7
+- **Host:** Ubuntu 24.04 on Codespaces
+- **CPU:** 2 cores, **RAM:** 7.8GB
+- **Disk:** 95GB (24GB free)
+- **Access:** `tailscale ssh 100.118.225.7`
+
 ## Railway (current host)
 
 - **Host:** Railway Debian 12 container (c7149d1cf604)
