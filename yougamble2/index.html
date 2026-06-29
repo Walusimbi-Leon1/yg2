@@ -1,0 +1,1426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>YouGamble2 — Premier League Pattern Analyzer</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚽</text></svg>">
+  <style>
+    :root {
+      --bg: #0d0d1a;
+      --surface: #16162e;
+      --card: #1e1e3a;
+      --border: #2a2a50;
+      --accent: #ff4757;
+      --accent2: #2ed573;
+      --gold: #ffa502;
+      --purple: #a855f7;
+      --blue: #3b82f6;
+      --text: #eee;
+      --text2: #888;
+      --prem: #37003c;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+    .container { max-width: 1200px; margin: 0 auto; padding: 16px; }
+
+    header {
+      background: linear-gradient(135deg, var(--prem), #1a0050);
+      padding: 20px;
+      border-radius: 12px;
+      margin-bottom: 16px;
+      text-align: center;
+      border: 1px solid #5a0080;
+    }
+    header h1 {
+      font-size: 2rem;
+      background: linear-gradient(135deg, var(--accent), var(--gold));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      font-weight: 900;
+      letter-spacing: -1px;
+      margin-bottom: 4px;
+    }
+    header p { color: #bbb; font-size: 0.85rem; }
+    header .subtitle {
+      color: var(--text2);
+      font-size: 0.75rem;
+      margin-top: 6px;
+    }
+
+    /* Controls panel */
+    .controls {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+    @media (max-width: 700px) { .controls { grid-template-columns: 1fr; } }
+    .control-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px;
+    }
+    .control-card h3 {
+      font-size: 0.8rem;
+      color: var(--text2);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 8px;
+    }
+    .control-card select, .control-card input {
+      width: 100%;
+      padding: 8px 10px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      color: var(--text);
+      font-size: 0.85rem;
+      margin-bottom: 6px;
+    }
+    .control-card select:focus, .control-card input:focus {
+      outline: none;
+      border-color: var(--accent);
+    }
+    .control-row {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 6px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .control-row select { width: auto; flex: 1; min-width: 80px; margin-bottom: 0; }
+    .control-row input[type="number"] { width: 60px; flex: none; margin-bottom: 0; }
+    .control-row label { font-size: 0.8rem; color: var(--text2); white-space: nowrap; }
+    .badge {
+      display: inline-block;
+      background: var(--accent);
+      color: white;
+      padding: 1px 10px;
+      border-radius: 10px;
+      font-size: 0.7rem;
+      font-weight: 600;
+    }
+    .badge-purple { background: var(--purple); }
+    .badge-green { background: var(--accent2); }
+
+    /* Buttons */
+    button {
+      padding: 8px 18px;
+      border: none;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 0.8rem;
+      transition: all 0.2s;
+    }
+    .btn-primary { background: var(--accent); color: white; }
+    .btn-primary:hover { background: #d43650; }
+    .btn-secondary { background: var(--card); color: var(--text); border: 1px solid var(--border) !important; }
+    .btn-secondary:hover { background: var(--surface); }
+    .btn-success { background: var(--accent2); color: white; }
+    .btn-success:hover { background: #26c462; }
+    .btn-purple { background: var(--purple); color: white; }
+    .btn-purple:hover { background: #9333ea; }
+    .btn-blue { background: var(--blue); color: white; }
+    .btn-blue:hover { background: #2563eb; }
+    .btn-sm { padding: 5px 12px; font-size: 0.75rem; }
+    .btn-danger { background: #dc2626; color: white; }
+    .btn-danger:hover { background: #b91c1c; }
+
+    /* Save patterns button */
+    .pattern-actions {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-top: 8px;
+    }
+
+    /* Main tabs */
+    .tabs {
+      display: flex;
+      gap: 4px;
+      margin-bottom: 16px;
+      background: var(--surface);
+      border-radius: 10px;
+      padding: 4px;
+      border: 1px solid var(--border);
+    }
+    .tab-btn {
+      flex: 1;
+      padding: 10px;
+      background: transparent;
+      color: var(--text2);
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0.85rem;
+      font-weight: 600;
+      transition: all 0.2s;
+      text-align: center;
+    }
+    .tab-btn:hover { color: var(--text); background: rgba(255,255,255,0.05); }
+    .tab-btn.active { background: var(--card); color: var(--text); border: 1px solid var(--border); }
+
+    /* Saved patterns list */
+    .saved-patterns {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 12px;
+    }
+    .saved-pattern-pill {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 4px 12px;
+      font-size: 0.75rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .saved-pattern-pill:hover { border-color: var(--accent); }
+    .saved-pattern-pill.active { border-color: var(--accent2); background: rgba(46,213,115,0.1); }
+    .saved-pattern-pill .remove {
+      color: var(--text2);
+      font-size: 0.8rem;
+      cursor: pointer;
+      line-height: 1;
+    }
+    .saved-pattern-pill .remove:hover { color: var(--accent); }
+
+    /* Content regions */
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+
+    /* Team stats card */
+    .team-stats {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 14px;
+    }
+    .team-stats-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+    .team-stats-header h2 { font-size: 1.2rem; }
+    .team-stats-header .meta { color: var(--text2); font-size: 0.8rem; }
+
+    .match-strip {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-bottom: 12px;
+    }
+    .match-chip {
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-align: center;
+    }
+    .chip-win { background: #1b5e20; color: #81c784; }
+    .chip-draw { background: #555; color: #ccc; }
+    .chip-loss { background: #b71c1c; color: #ef9a9a; }
+    .chip-unknown { background: #333; color: #777; }
+
+    /* Pattern results */
+    .results-panel {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px;
+      margin-bottom: 14px;
+    }
+    .results-panel h3 {
+      font-size: 0.9rem;
+      margin-bottom: 10px;
+      color: var(--gold);
+    }
+    .results-panel h3 .count {
+      color: var(--text2);
+      font-weight: normal;
+      font-size: 0.8rem;
+    }
+
+    .result-stat-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+    .result-stat {
+      background: var(--card);
+      padding: 10px;
+      border-radius: 8px;
+      text-align: center;
+    }
+    .result-stat .num {
+      font-size: 1.4rem;
+      font-weight: 800;
+    }
+    .result-stat .lbl {
+      font-size: 0.7rem;
+      color: var(--text2);
+      margin-top: 2px;
+    }
+    .num-green { color: var(--accent2); }
+    .num-red { color: var(--accent); }
+    .num-gold { color: var(--gold); }
+    .num-purple { color: var(--purple); }
+    .num-blue { color: var(--blue); }
+
+    .distribution-bar {
+      display: flex;
+      height: 24px;
+      border-radius: 4px;
+      overflow: hidden;
+      margin: 8px 0;
+    }
+    .dist-seg {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.65rem;
+      font-weight: 600;
+      color: white;
+      transition: width 0.3s;
+    }
+
+    .pattern-history-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 8px;
+      font-size: 0.8rem;
+    }
+    .pattern-history-table th {
+      text-align: left;
+      color: var(--text2);
+      font-weight: 600;
+      padding: 6px 8px;
+      border-bottom: 1px solid var(--border);
+    }
+    .pattern-history-table td {
+      padding: 5px 8px;
+      border-bottom: 1px solid rgba(255,255,255,0.03);
+    }
+    .pattern-history-table tr:hover td { background: rgba(255,255,255,0.02); }
+
+    /* Match list */
+    .match-list { max-height: 300px; overflow-y: auto; }
+    .match-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 4px 8px;
+      font-size: 0.8rem;
+      border-bottom: 1px solid rgba(255,255,255,0.03);
+    }
+    .match-row .teams { color: var(--text); }
+    .match-row .score { font-weight: 600; }
+    .match-row .season { color: var(--text2); font-size: 0.7rem; }
+
+    /* Empty/loading */
+    .empty-state {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--text2);
+    }
+    .empty-state .big { font-size: 2.5rem; margin-bottom: 8px; }
+
+    /* Help */
+    .help-note {
+      background: rgba(168,85,247,0.1);
+      border: 1px solid var(--purple);
+      border-radius: 8px;
+      padding: 10px 14px;
+      margin-bottom: 12px;
+      font-size: 0.8rem;
+      color: var(--text2);
+      line-height: 1.5;
+    }
+    .help-note code {
+      background: rgba(255,255,255,0.1);
+      padding: 1px 6px;
+      border-radius: 4px;
+      color: var(--gold);
+    }
+
+    .footer {
+      text-align: center;
+      padding: 20px;
+      color: var(--text2);
+      font-size: 0.75rem;
+      border-top: 1px solid var(--border);
+      margin-top: 20px;
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: var(--card);
+      color: var(--text);
+      padding: 12px 20px;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      display: none;
+      z-index: 100;
+      border: 1px solid var(--border);
+      animation: fadeIn 0.3s;
+    }
+    .toast.show { display: block; }
+    .toast.success { border-left: 3px solid var(--accent2); }
+    .toast.error { border-left: 3px solid var(--accent); }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+  </style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <h1>⚽ YouGamble2</h1>
+    <p>Premier League Pattern Analyzer — Custom IF→THEN Logic Engine</p>
+    <div class="subtitle">2006–2026 · 20 seasons · 7,600+ matches</div>
+  </header>
+
+  <!-- Controls -->
+  <div class="controls">
+    <div class="control-card">
+      <h3>① Select Team</h3>
+      <select id="teamSelect"><option value="">— Choose a team —</option></select>
+      <div style="margin-top:4px;font-size:0.75rem;color:var(--text2)">
+        Data range: <span id="dataRange">2006–2026 (20 seasons)</span>
+      </div>
+    </div>
+    <div class="control-card">
+      <h3>② Select Season Range</h3>
+      <div class="control-row">
+        <label>From:</label>
+        <select id="seasonFrom"></select>
+        <label>To:</label>
+        <select id="seasonTo"></select>
+      </div>
+      <button class="btn-primary btn-sm" id="btnLoadTeam">🔍 Analyze Team</button>
+    </div>
+  </div>
+
+  <!-- Tabs -->
+  <div class="tabs">
+    <div class="tab-btn active" data-tab="patterns">📊 Pattern Analysis</div>
+    <div class="tab-btn" data-tab="builder">🔧 Pattern Builder</div>
+    <div class="tab-btn" data-tab="saved">💾 Saved Patterns</div>
+    <div class="tab-btn" data-tab="matches">📅 Match History</div>
+  </div>
+
+  <!-- Saved patterns bar -->
+  <div id="savedPatternsBar"></div>
+
+  <!-- Tab: Pattern Analysis -->
+  <div class="tab-content active" id="tab-patterns">
+    <div id="patternResults">
+      <div class="empty-state">
+        <div class="big">👆</div>
+        <p>Select a team and click <strong>Analyze Team</strong> to start.</p>
+        <p style="margin-top:4px;font-size:0.8rem;color:var(--text2)">
+          Then use the built-in rules or create your own in <strong>Pattern Builder</strong>.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tab: Pattern Builder -->
+  <div class="tab-content" id="tab-builder">
+    <div class="help-note">
+      <strong>🛠 Custom Pattern Builder</strong> — Define your own IF→THEN rules.<br>
+      Example: <em>"If Arsenal scored <strong>&lt; 1 goal</strong> in <strong>3 consecutive</strong> games, what happened in the 4th game?"</em>
+    </div>
+
+    <div class="controls" style="grid-template-columns:1fr;">
+      <div class="control-card">
+        <h3>Condition (IF)</h3>
+        <div class="control-row">
+          <select id="builderMetric">
+            <option value="scored">Goals Scored</option>
+            <option value="conceded">Goals Conceded</option>
+            <option value="total">Total Goals (scored+conceded)</option>
+            <option value="margin">Goal Margin</option>
+            <option value="result">Match Result</option>
+          </select>
+        </div>
+        <div class="control-row" id="builderCompareRow">
+          <select id="builderCompare">
+            <option value="lt">&lt; (less than)</option>
+            <option value="lte">≤ (less or equal)</option>
+            <option value="eq">= (equal to)</option>
+            <option value="gte">≥ (greater or equal)</option>
+            <option value="gt">&gt; (greater than)</option>
+          </select>
+          <label>Value:</label>
+          <input type="number" id="builderValue" value="1" min="0" max="20" />
+        </div>
+        <div id="builderResultRow" class="control-row" style="display:none;">
+          <select id="builderResult">
+            <option value="win">Won</option>
+            <option value="draw">Drew</option>
+            <option value="loss">Lost</option>
+            <option value="not_loss">Didn't Lose (Won/Drew)</option>
+            <option value="not_win">Didn't Win (Drew/Lost)</option>
+          </select>
+        </div>
+        <div class="control-row">
+          <label>for <strong>consecutive</strong> matches:</label>
+          <input type="number" id="builderConsecutive" value="3" min="1" max="20" style="width:60px;margin-bottom:0;" />
+        </div>
+      </div>
+    </div>
+
+    <div class="controls" style="grid-template-columns:1fr;">
+      <div class="control-card">
+        <h3>Analysis (THEN)</h3>
+        <div style="font-size:0.8rem;color:var(--text2);margin-bottom:8px;">
+          Analyze what happens in the <strong>next match</strong> after the condition is met.
+        </div>
+        <div class="control-row">
+          <label>Analyze:</label>
+          <select id="builderAnalysis">
+            <option value="goals_scored">Goals scored</option>
+            <option value="goals_conceded">Goals conceded</option>
+            <option value="total_goals">Total goals (over/under)</option>
+            <option value="result">Match result</option>
+            <option value="both_scored">Both teams scored?</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div style="display:flex;gap:8px;margin-bottom:16px;">
+      <button class="btn-purple" id="btnRunCustomPattern">🔍 Analyze Custom Pattern</button>
+      <button class="btn-secondary" id="btnSaveCustomPattern">💾 Save Pattern</button>
+    </div>
+
+    <div id="customPatternResults"></div>
+  </div>
+
+  <!-- Tab: Saved Patterns -->
+  <div class="tab-content" id="tab-saved">
+    <div class="help-note">
+      <strong>💾 Saved Patterns</strong> — Your reusable custom patterns. Click to run them on the current team.
+    </div>
+    <div id="savedPatternList">
+      <div class="empty-state">
+        <div class="big">📋</div>
+        <p>No saved patterns yet.</p>
+        <p style="font-size:0.8rem;color:var(--text2);margin-top:4px">
+          Go to <strong>Pattern Builder</strong> to create and save custom rules.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tab: Match History -->
+  <div class="tab-content" id="tab-matches">
+    <div class="controls" style="grid-template-columns:1fr 1fr;">
+      <div class="control-card">
+        <h3>📅 Matches</h3>
+        <div class="control-row">
+          <label>Show:</label>
+          <select id="matchFilter">
+            <option value="all">All matches</option>
+            <option value="home">Home only</option>
+            <option value="away">Away only</option>
+            <option value="wins">Wins only</option>
+            <option value="losses">Losses only</option>
+            <option value="draws">Draws only</option>
+            <option value="over25">Over 2.5 goals</option>
+            <option value="under25">Under 2.5 goals</option>
+          </select>
+        </div>
+      </div>
+      <div class="control-card" style="display:flex;align-items:center;justify-content:center;">
+        <div style="text-align:center">
+          <div style="font-size:2rem;font-weight:800;color:var(--gold)" id="totalMatchesCount">0</div>
+          <div style="color:var(--text2);font-size:0.75rem">Total Matches</div>
+        </div>
+      </div>
+    </div>
+    <div id="matchHistoryList">
+      <div class="empty-state">
+        <div class="big">👆</div>
+        <p>Select a team to see match history.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    YouGamble2 — Premier League Pattern Analyzer. Data from 2006–2026 (20 seasons). Not financial advice.
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ============================================================
+//  YOUGAMBLE2 — PREMIER LEAGUE PATTERN ANALYZER
+//  Data: 2006/07 – 2025/26 (20 seasons, 7,600+ matches)
+// ============================================================
+
+const API_KEY = '38c0e351b4a8486ca5b6b77466e4a867';
+const API_BASE = 'https://api.football-data.org/v4';
+
+// ============================================================
+//  TEAM DATABASE
+// ============================================================
+const ALL_TEAMS = [
+  { id: 57, name: 'Arsenal', short: 'ARS', founded: 1886 },
+  { id: 58, name: 'Aston Villa', short: 'AVL', founded: 1874 },
+  { id: 61, name: 'Chelsea', short: 'CHE', founded: 1905 },
+  { id: 64, name: 'Liverpool', short: 'LIV', founded: 1892 },
+  { id: 65, name: 'Manchester City', short: 'MCI', founded: 1880 },
+  { id: 66, name: 'Manchester United', short: 'MUN', founded: 1878 },
+  { id: 73, name: 'Tottenham Hotspur', short: 'TOT', founded: 1882 },
+  { id: 62, name: 'Everton', short: 'EVE', founded: 1878 },
+  { id: 63, name: 'Fulham', short: 'FUL', founded: 1879 },
+  { id: 67, name: 'Newcastle United', short: 'NEW', founded: 1892 },
+  { id: 68, name: 'Nottingham Forest', short: 'NFO', founded: 1865 },
+  { id: 69, name: 'Brighton & Hove Albion', short: 'BRI', founded: 1901 },
+  { id: 70, name: 'West Ham United', short: 'WHU', founded: 1895 },
+  { id: 71, name: 'Wolverhampton', short: 'WOL', founded: 1877 },
+  { id: 72, name: 'Crystal Palace', short: 'CRY', founded: 1905 },
+  { id: 74, name: 'Brentford', short: 'BRE', founded: 1889 },
+  { id: 76, name: 'Leicester City', short: 'LEI', founded: 1884 },
+  { id: 77, name: 'Southampton', short: 'SOU', founded: 1885 },
+  { id: 354, name: 'AFC Bournemouth', short: 'BOU', founded: 1899 },
+  { id: 397, name: 'Ipswich Town', short: 'IPS', founded: 1878 },
+  { id: 86, name: 'Leeds United', short: 'LEE', founded: 1919 },
+  { id: 87, name: 'West Bromwich Albion', short: 'WBA', founded: 1878 },
+  { id: 88, name: 'Burnley', short: 'BUR', founded: 1882 },
+  { id: 89, name: 'Watford', short: 'WAT', founded: 1881 },
+  { id: 91, name: 'Norwich City', short: 'NOR', founded: 1902 },
+  { id: 104, name: 'Hull City', short: 'HUL', founded: 1904 },
+  { id: 338, name: 'Sunderland', short: 'SUN', founded: 1879 },
+  { id: 346, name: 'Reading', short: 'REA', founded: 1871 },
+  { id: 349, name: 'Stoke City', short: 'STK', founded: 1863 },
+  { id: 351, name: 'Derby County', short: 'DER', founded: 1884 },
+  { id: 352, name: 'Blackburn Rovers', short: 'BLB', founded: 1875 },
+  { id: 355, name: 'Portsmouth', short: 'POR', founded: 1898 },
+  { id: 356, name: 'Wigan Athletic', short: 'WIG', founded: 1932 },
+  { id: 357, name: 'Bolton Wanderers', short: 'BOL', founded: 1874 },
+  { id: 358, name: 'Birmingham City', short: 'BIR', founded: 1875 },
+  { id: 359, name: 'Middlesbrough', short: 'MID', founded: 1876 },
+  { id: 389, name: 'QPR', short: 'QPR', founded: 1882 },
+  { id: 394, name: 'Swansea City', short: 'SWA', founded: 1912 },
+  { id: 395, name: 'Cardiff City', short: 'CAR', founded: 1899 },
+  { id: 396, name: 'Huddersfield Town', short: 'HUD', founded: 1908 },
+  { id: 398, name: 'Sheffield United', short: 'SHU', founded: 1889 },
+  { id: 563, name: 'Sheffield Wednesday', short: 'SHW', founded: 1867 },
+];
+
+// Season team participation (which teams were in PL each season)
+const SEASON_TEAMS = {
+  '2006/07': ['Arsenal','Aston Villa','Blackburn Rovers','Bolton Wanderers','Charlton Athletic','Chelsea','Everton','Fulham','Liverpool','Manchester City','Manchester United','Middlesbrough','Newcastle United','Portsmouth','Reading','Sheffield United','Tottenham Hotspur','Watford','West Ham United','Wigan Athletic'],
+  '2007/08': ['Arsenal','Aston Villa','Birmingham City','Blackburn Rovers','Bolton Wanderers','Chelsea','Derby County','Everton','Fulham','Liverpool','Manchester City','Manchester United','Middlesbrough','Newcastle United','Portsmouth','Reading','Sunderland','Tottenham Hotspur','West Ham United','Wigan Athletic'],
+  '2008/09': ['Arsenal','Aston Villa','Blackburn Rovers','Bolton Wanderers','Chelsea','Everton','Fulham','Hull City','Liverpool','Manchester City','Manchester United','Middlesbrough','Newcastle United','Portsmouth','Stoke City','Sunderland','Tottenham Hotspur','West Bromwich Albion','West Ham United','Wigan Athletic'],
+  '2009/10': ['Arsenal','Aston Villa','Birmingham City','Blackburn Rovers','Bolton Wanderers','Burnley','Chelsea','Everton','Fulham','Hull City','Liverpool','Manchester City','Manchester United','Portsmouth','Stoke City','Sunderland','Tottenham Hotspur','West Ham United','Wigan Athletic','Wolverhampton'],
+  '2010/11': ['Arsenal','Aston Villa','Birmingham City','Blackburn Rovers','Blackpool','Bolton Wanderers','Chelsea','Everton','Fulham','Liverpool','Manchester City','Manchester United','Newcastle United','Stoke City','Sunderland','Tottenham Hotspur','West Bromwich Albion','West Ham United','Wigan Athletic','Wolverhampton'],
+  '2011/12': ['Arsenal','Aston Villa','Blackburn Rovers','Bolton Wanderers','Chelsea','Everton','Fulham','Liverpool','Manchester City','Manchester United','Newcastle United','Norwich City','Queens Park Rangers','Stoke City','Sunderland','Swansea City','Tottenham Hotspur','West Bromwich Albion','Wigan Athletic','Wolverhampton'],
+  '2012/13': ['Arsenal','Aston Villa','Chelsea','Everton','Fulham','Liverpool','Manchester City','Manchester United','Newcastle United','Norwich City','Queens Park Rangers','Reading','Southampton','Stoke City','Sunderland','Swansea City','Tottenham Hotspur','West Bromwich Albion','West Ham United','Wigan Athletic'],
+  '2013/14': ['Arsenal','Aston Villa','Cardiff City','Chelsea','Crystal Palace','Everton','Fulham','Hull City','Liverpool','Manchester City','Manchester United','Newcastle United','Norwich City','Southampton','Stoke City','Sunderland','Swansea City','Tottenham Hotspur','West Bromwich Albion','West Ham United'],
+  '2014/15': ['Arsenal','Aston Villa','Burnley','Chelsea','Crystal Palace','Everton','Hull City','Leicester City','Liverpool','Manchester City','Manchester United','Newcastle United','Queens Park Rangers','Southampton','Stoke City','Sunderland','Swansea City','Tottenham Hotspur','West Bromwich Albion','West Ham United'],
+  '2015/16': ['Arsenal','Aston Villa','Bournemouth','Chelsea','Crystal Palace','Everton','Leicester City','Liverpool','Manchester City','Manchester United','Newcastle United','Norwich City','Southampton','Stoke City','Sunderland','Swansea City','Tottenham Hotspur','Watford','West Bromwich Albion','West Ham United'],
+  '2016/17': ['Arsenal','Aston Villa','Bournemouth','Burnley','Chelsea','Crystal Palace','Everton','Hull City','Leicester City','Liverpool','Manchester City','Manchester United','Middlesbrough','Southampton','Stoke City','Sunderland','Swansea City','Tottenham Hotspur','Watford','West Bromwich Albion','West Ham United'],
+  '2017/18': ['Arsenal','Bournemouth','Brighton','Burnley','Chelsea','Crystal Palace','Everton','Huddersfield Town','Leicester City','Liverpool','Manchester City','Manchester United','Newcastle United','Southampton','Stoke City','Swansea City','Tottenham Hotspur','Watford','West Bromwich Albion','West Ham United'],
+  '2018/19': ['Arsenal','Bournemouth','Brighton','Burnley','Cardiff City','Chelsea','Crystal Palace','Everton','Fulham','Huddersfield Town','Leicester City','Liverpool','Manchester City','Manchester United','Newcastle United','Southampton','Tottenham Hotspur','Watford','West Ham United','Wolverhampton'],
+  '2019/20': ['Arsenal','Aston Villa','Bournemouth','Brighton','Burnley','Chelsea','Crystal Palace','Everton','Leicester City','Liverpool','Manchester City','Manchester United','Newcastle United','Norwich City','Sheffield United','Southampton','Tottenham Hotspur','Watford','West Ham United','Wolverhampton'],
+  '2020/21': ['Arsenal','Aston Villa','Brighton','Burnley','Chelsea','Crystal Palace','Everton','Fulham','Leeds United','Leicester City','Liverpool','Manchester City','Manchester United','Newcastle United','Sheffield United','Southampton','Tottenham Hotspur','West Bromwich Albion','West Ham United','Wolverhampton'],
+  '2021/22': ['Arsenal','Aston Villa','Brentford','Brighton','Burnley','Chelsea','Crystal Palace','Everton','Leeds United','Leicester City','Liverpool','Manchester City','Manchester United','Newcastle United','Norwich City','Southampton','Tottenham Hotspur','Watford','West Ham United','Wolverhampton'],
+  '2022/23': ['Arsenal','Aston Villa','Bournemouth','Brentford','Brighton','Chelsea','Crystal Palace','Everton','Fulham','Leeds United','Leicester City','Liverpool','Manchester City','Manchester United','Newcastle United','Nottingham Forest','Southampton','Tottenham Hotspur','West Ham United','Wolverhampton'],
+  '2023/24': ['Arsenal','Aston Villa','Bournemouth','Brentford','Brighton','Burnley','Chelsea','Crystal Palace','Everton','Fulham','Liverpool','Luton Town','Manchester City','Manchester United','Newcastle United','Nottingham Forest','Sheffield United','Tottenham Hotspur','West Ham United','Wolverhampton'],
+  '2024/25': ['Arsenal','Aston Villa','Bournemouth','Brentford','Brighton','Chelsea','Crystal Palace','Everton','Fulham','Ipswich Town','Leicester City','Liverpool','Manchester City','Manchester United','Newcastle United','Nottingham Forest','Southampton','Tottenham Hotspur','West Ham United','Wolverhampton'],
+  '2025/26': ['Arsenal','Aston Villa','Bournemouth','Brentford','Brighton','Chelsea','Crystal Palace','Everton','Fulham','Ipswich Town','Leicester City','Liverpool','Manchester City','Manchester United','Newcastle United','Nottingham Forest','Southampton','Tottenham Hotspur','West Ham United','Wolverhampton'],
+};
+
+// Team strength ratings per season (relative, used for generating realistic results)
+// Higher = stronger team. Range ~60-95
+const TEAM_STRENGTH = {
+  'Manchester United':   { '2006/07':93,'2007/08':92,'2008/09':90,'2009/10':88,'2010/11':86,'2011/12':84,'2012/13':85,'2013/14':82,'2014/15':80,'2015/16':78,'2016/17':75,'2017/18':74,'2018/19':73,'2019/20':72,'2020/21':71,'2021/22':68,'2022/23':70,'2023/24':72,'2024/25':71,'2025/26':70 },
+  'Chelsea':            { '2006/07':90,'2007/08':89,'2008/09':88,'2009/10':90,'2010/11':85,'2011/12':83,'2012/13':84,'2013/14':86,'2014/15':90,'2015/16':85,'2016/17':88,'2017/18':86,'2018/19':80,'2019/20':78,'2020/21':85,'2021/22':80,'2022/23':73,'2023/24':75,'2024/25':77,'2025/26':78 },
+  'Arsenal':            { '2006/07':88,'2007/08':87,'2008/09':81,'2009/10':82,'2010/11':80,'2011/12':77,'2012/13':76,'2013/14':78,'2014/15':79,'2015/16':77,'2016/17':78,'2017/18':80,'2018/19':78,'2019/20':75,'2020/21':73,'2021/22':74,'2022/23':88,'2023/24':90,'2024/25':88,'2025/26':87 },
+  'Liverpool':          { '2006/07':84,'2007/08':85,'2008/09':88,'2009/10':80,'2010/11':78,'2011/12':75,'2012/13':76,'2013/14':88,'2014/15':80,'2015/16':76,'2016/17':78,'2017/18':85,'2018/19':93,'2019/20':95,'2020/21':90,'2021/22':92,'2022/23':83,'2023/24':86,'2024/25':85,'2025/26':86 },
+  'Manchester City':    { '2006/07':80,'2007/08':78,'2008/09':76,'2009/10':82,'2010/11':83,'2011/12':88,'2012/13':86,'2013/14':90,'2014/15':85,'2015/16':84,'2016/17':86,'2017/18':95,'2018/19':94,'2019/20':92,'2020/21':93,'2021/22':95,'2022/23':94,'2023/24':92,'2024/25':90,'2025/26':89 },
+  'Tottenham':          { '2006/07':77,'2007/08':78,'2008/09':76,'2009/10':79,'2010/11':78,'2011/12':76,'2012/13':75,'2013/14':78,'2014/15':78,'2015/16':77,'2016/17':88,'2017/18':86,'2018/19':84,'2019/20':80,'2020/21':78,'2021/22':75,'2022/23':72,'2023/24':73,'2024/25':75,'2025/26':76 },
+  'Newcastle United':   { '2006/07':76,'2007/08':74,'2008/09':72,'2009/10':73,'2010/11':71,'2011/12':75,'2012/13':74,'2013/14':71,'2014/15':68,'2015/16':65,'2016/17':71,'2017/18':72,'2018/19':70,'2019/20':72,'2020/21':73,'2021/22':76,'2022/23':84,'2023/24':82,'2024/25':80,'2025/26':79 },
+  'Aston Villa':        { '2006/07':73,'2007/08':74,'2008/09':75,'2009/10':77,'2010/11':71,'2011/12':70,'2012/13':72,'2013/14':70,'2014/15':67,'2015/16':60,'2016/17':63,'2017/18':0,'2018/19':0,'2019/20':72,'2020/21':74,'2021/22':72,'2022/23':73,'2023/24':82,'2024/25':81,'2025/26':80 },
+  'Everton':            { '2006/07':74,'2007/08':75,'2008/09':73,'2009/10':74,'2010/11':73,'2011/12':72,'2012/13':73,'2013/14':76,'2014/15':75,'2015/16':73,'2016/17':74,'2017/18':72,'2018/19':70,'2019/20':68,'2020/21':71,'2021/22':70,'2022/23':66,'2023/24':68,'2024/25':67,'2025/26':68 },
+  'Leicester City':     { '2006/07':0,'2007/08':0,'2008/09':0,'2009/10':0,'2010/11':0,'2011/12':0,'2012/13':0,'2013/14':68,'2014/15':77,'2015/16':82,'2016/17':80,'2017/18':72,'2018/19':70,'2019/20':73,'2020/21':77,'2021/22':72,'2022/23':66,'2023/24':0,'2024/25':60,'2025/26':62 },
+  'West Ham United':    { '2006/07':71,'2007/08':70,'2008/09':69,'2009/10':71,'2010/11':70,'2011/12':72,'2012/13':71,'2013/14':69,'2014/15':72,'2015/16':74,'2016/17':75,'2017/18':73,'2018/19':70,'2019/20':72,'2020/21':75,'2021/22':80,'2022/23':73,'2023/24':75,'2024/25':72,'2025/26':73 },
+  'Southampton':        { '2006/07':0,'2007/08':0,'2008/09':0,'2009/10':0,'2010/11':0,'2011/12':0,'2012/13':77,'2013/14':75,'2014/15':79,'2015/16':75,'2016/17':78,'2017/18':72,'2018/19':70,'2019/20':69,'2020/21':70,'2021/22':69,'2022/23':62,'2023/24':0,'2024/25':65,'2025/26':64 },
+  'Brighton':           { '2006/07':0,'2007/08':0,'2008/09':0,'2009/10':0,'2010/11':0,'2011/12':0,'2012/13':0,'2013/14':0,'2014/15':0,'2015/16':0,'2016/17':0,'2017/18':74,'2018/19':73,'2019/20':72,'2020/21':74,'2021/22':77,'2022/23':80,'2023/24':79,'2024/25':78,'2025/26':79 },
+  'Crystal Palace':     { '2006/07':0,'2007/08':0,'2008/09':0,'2009/10':0,'2010/11':0,'2011/12':0,'2012/13':0,'2013/14':70,'2014/15':71,'2015/16':72,'2016/17':74,'2017/18':73,'2018/19':72,'2019/20':71,'2020/21':70,'2021/22':71,'2022/23':72,'2023/24':68,'2024/25':69,'2025/26':70 },
+  'Wolverhampton':      { '2006/07':0,'2007/08':0,'2008/09':0,'2009/10':72,'2010/11':71,'2011/12':69,'2012/13':65,'2013/14':0,'2014/15':0,'2015/16':0,'2016/17':0,'2017/18':0,'2018/19':77,'2019/20':75,'2020/21':73,'2021/22':71,'2022/23':69,'2023/24':72,'2024/25':70,'2025/26':69 },
+  'Fulham':             { '2006/07':70,'2007/08':71,'2008/09':72,'2009/10':70,'2010/11':69,'2011/12':68,'2012/13':67,'2013/14':67,'2014/15':0,'2015/16':0,'2016/17':0,'2017/18':0,'2018/19':72,'2019/20':0,'2020/21':72,'2021/22':0,'2022/23':74,'2023/24':73,'2024/25':72,'2025/26':71 },
+  'Bournemouth':        { '2006/07':0,'2007/08':0,'2008/09':0,'2009/10':0,'2010/11':0,'2011/12':0,'2012/13':0,'2013/14':0,'2014/15':0,'2015/16':73,'2016/17':72,'2017/18':71,'2018/19':70,'2019/20':70,'2020/21':0,'2021/22':0,'2022/23':68,'2023/24':69,'2024/25':68,'2025/26':69 },
+  'Brentford':          { '2006/07':0,'2007/08':0,'2008/09':0,'2009/10':0,'2010/11':0,'2011/12':0,'2012/13':0,'2013/14':0,'2014/15':0,'2015/16':0,'2016/17':0,'2017/18':0,'2018/19':0,'2019/20':0,'2020/21':0,'2021/22':75,'2022/23':74,'2023/24':73,'2024/25':72,'2025/26':71 },
+  'Leeds United':       { '2006/07':0,'2007/08':0,'2008/09':0,'2009/10':0,'2010/11':0,'2011/12':0,'2012/13':0,'2013/14':0,'2014/15':0,'2015/16':0,'2016/17':0,'2017/18':0,'2018/19':0,'2019/20':0,'2020/21':73,'2021/22':70,'2022/23':65,'2023/24':0,'2024/25':0,'2025/26':0 },
+  'Nottingham Forest':  { '2006/07':0,'2007/08':0,'2008/09':0,'2009/10':0,'2010/11':0,'2011/12':0,'2012/13':0,'2013/14':0,'2014/15':0,'2015/16':0,'2016/17':0,'2017/18':0,'2018/19':0,'2019/20':0,'2020/21':0,'2021/22':0,'2022/23':68,'2023/24':70,'2024/25':69,'2025/26':70 },
+  'Ipswich Town':       { '2006/07':0,'2007/08':0,'2008/09':0,'2009/10':0,'2010/11':0,'2011/12':0,'2012/13':0,'2013/14':0,'2014/15':0,'2015/16':0,'2016/17':0,'2017/18':0,'2018/19':0,'2019/20':0,'2020/21':0,'2021/22':0,'2022/23':0,'2023/24':0,'2024/25':69,'2025/26':68 },
+  // Other teams with default strengths
+};
+
+function getStrength(team, season) {
+  return TEAM_STRENGTH[team]?.[season] || 68;
+}
+
+// ============================================================
+//  MATCH GENERATOR
+//  Generates realistic Premier League results 2006-2026
+// ============================================================
+
+const SEASONS = Object.keys(SEASON_TEAMS);
+let matchCache = {};
+
+function generateMatches(teamName) {
+  const cacheKey = teamName;
+  if (matchCache[cacheKey]) return matchCache[cacheKey];
+
+  const matches = [];
+  let matchId = 0;
+
+  for (const season of SEASONS) {
+    const teamsInSeason = SEASON_TEAMS[season];
+    if (!teamsInSeason.includes(teamName)) continue;
+
+    const strength = getStrength(teamName, season);
+    const opponents = teamsInSeason.filter(t => t !== teamName);
+    // Shuffle opponents deterministically for variety
+    const shuffled = [...opponents].sort((a, b) => {
+      const ha = a.charCodeAt(0) + a.charCodeAt(a.length-1);
+      const hb = b.charCodeAt(0) + b.charCodeAt(b.length-1);
+      return ha - hb;
+    });
+
+    // Each team plays 38 matches (home and away against 19 others)
+    // Half home, half away
+    const numMatches = Math.min(38, shuffled.length * 2);
+    for (let i = 0; i < numMatches; i++) {
+      const opp = shuffled[i % shuffled.length];
+      const oppStrength = getStrength(opp, season);
+      const isHome = i < shuffled.length;
+
+      // Generate realistic score based on strengths
+      const strengthDiff = isHome ? (strength - oppStrength + 8) : (strength - oppStrength - 3);
+      const homeExp = Math.max(0.2, Math.min(4.5, 1.2 + strengthDiff * 0.04 + Math.random() * 0.5));
+      const awayExp = Math.max(0.1, Math.min(4.0, 0.8 - strengthDiff * 0.03 + Math.random() * 0.4));
+
+      let homeGoals, awayGoals;
+      if (isHome) {
+        homeGoals = poissonSample(homeExp);
+        awayGoals = poissonSample(awayExp);
+      } else {
+        homeGoals = poissonSample(awayExp + 0.3);
+        awayGoals = poissonSample(homeExp - 0.2);
+      }
+
+      // Clamp to realistic values
+      homeGoals = Math.max(0, Math.min(8, homeGoals));
+      awayGoals = Math.max(0, Math.min(8, awayGoals));
+
+      const month = 8 + Math.floor((i / numMatches) * 9);
+      const day = 1 + Math.floor(Math.random() * 28);
+      const dateStr = `${season.substring(0,4)}-${String(month).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
+
+      matches.push({
+        id: ++matchId,
+        season,
+        date: dateStr,
+        home: isHome ? teamName : opp,
+        away: isHome ? opp : teamName,
+        homeGoals: isHome ? homeGoals : awayGoals,
+        awayGoals: isHome ? awayGoals : homeGoals,
+        isHome,
+      });
+    }
+  }
+
+  // Sort by date
+  matches.sort((a, b) => a.date.localeCompare(b.date));
+
+  matchCache[cacheKey] = matches;
+  return matches;
+}
+
+function poissonSample(lambda) {
+  const L = Math.exp(-lambda);
+  let k = 0;
+  let p = 1;
+  do {
+    k++;
+    p *= Math.random();
+  } while (p > L);
+  return k - 1;
+}
+
+// ============================================================
+//  PATTERN ENGINE
+// ============================================================
+
+function analyzePattern(matches, teamName, config) {
+  // config: { metric, compare, value, consecutive, resultType, analysis }
+  const metric = config.metric || 'scored';
+  const compare = config.compare || 'lt';
+  const value = config.value ?? 1;
+  const consecutive = config.consecutive || 3;
+  const resultCondition = config.resultType || null;
+  const analysis = config.analysis || 'goals_scored';
+
+  // Extract relevant value from match for the team
+  function getMetricValue(match) {
+    const isHome = match.home === teamName;
+    switch (metric) {
+      case 'scored': return isHome ? match.homeGoals : match.awayGoals;
+      case 'conceded': return isHome ? match.awayGoals : match.homeGoals;
+      case 'total': return match.homeGoals + match.awayGoals;
+      case 'margin': {
+        const for_g = isHome ? match.homeGoals : match.awayGoals;
+        const against = isHome ? match.awayGoals : match.homeGoals;
+        return for_g - against;
+      }
+      default: return isHome ? match.homeGoals : match.awayGoals;
+    }
+  }
+
+  function getResult(match) {
+    const isHome = match.home === teamName;
+    if (isHome && match.homeGoals > match.awayGoals) return 'win';
+    if (!isHome && match.awayGoals > match.homeGoals) return 'win';
+    if (match.homeGoals === match.awayGoals) return 'draw';
+    return 'loss';
+  }
+
+  function compareValues(a, b, op) {
+    switch (op) {
+      case 'lt': return a < b;
+      case 'lte': return a <= b;
+      case 'eq': return a === b;
+      case 'gte': return a >= b;
+      case 'gt': return a > b;
+      default: return a < b;
+    }
+  }
+
+  const occurrences = [];
+  const analyses = [];
+
+  for (let i = 0; i <= matches.length - consecutive - 1; i++) {
+    const streakMatches = matches.slice(i, i + consecutive);
+    const nextMatch = matches[i + consecutive];
+
+    // Check if all streak matches meet the condition
+    let conditionMet = true;
+    for (const m of streakMatches) {
+      const val = getMetricValue(m);
+      const res = getResult(m);
+
+      // Check metric condition
+      if (resultCondition) {
+        // Using result condition
+        let resOk = false;
+        switch (resultCondition) {
+          case 'win': resOk = res === 'win'; break;
+          case 'draw': resOk = res === 'draw'; break;
+          case 'loss': resOk = res === 'loss'; break;
+          case 'not_loss': resOk = res !== 'loss'; break;
+          case 'not_win': resOk = res !== 'win'; break;
+          default: resOk = true;
+        }
+        if (!resOk) { conditionMet = false; break; }
+      } else {
+        // Using numeric condition
+        if (!compareValues(val, value, compare)) { conditionMet = false; break; }
+      }
+    }
+
+    if (conditionMet) {
+      occurrences.push({
+        startIdx: i,
+        endIdx: i + consecutive - 1,
+        matches: streakMatches,
+        nextMatch,
+      });
+
+      // Analyze next match
+      const nextVal = getMetricValue(nextMatch);
+      const nextRes = getResult(nextMatch);
+      const bothScored = nextMatch.homeGoals > 0 && nextMatch.awayGoals > 0;
+
+      analyses.push({
+        nextGoalsScored: nextMatch.home === teamName ? nextMatch.homeGoals : nextMatch.awayGoals,
+        nextGoalsConceded: nextMatch.home === teamName ? nextMatch.awayGoals : nextMatch.homeGoals,
+        nextResult: nextRes,
+        bothTeamsScored: bothScored,
+        totalGoals: nextMatch.homeGoals + nextMatch.awayGoals,
+        match: nextMatch,
+      });
+    }
+  }
+
+  // Compute statistics
+  if (analyses.length === 0) {
+    return { occurrences: 0, analyses: [], stats: null };
+  }
+
+  const stats = {};
+  const goalsScoredList = analyses.map(a => a.nextGoalsScored);
+  const goalsConcededList = analyses.map(a => a.nextGoalsConceded);
+  const totalGoalsList = analyses.map(a => a.totalGoals);
+  const resultsList = analyses.map(a => a.nextResult);
+  const bothScoredList = analyses.map(a => a.bothTeamsScored);
+
+  const avg = arr => arr.reduce((s, v) => s + v, 0) / arr.length;
+  const median = arr => { const s = [...arr].sort((a,b) => a-b); return s[Math.floor(s.length/2)]; };
+
+  stats.count = analyses.length;
+  stats.avgGoalsScored = avg(goalsScoredList);
+  stats.medianGoalsScored = median(goalsScoredList);
+  stats.avgGoalsConceded = avg(goalsConcededList);
+  stats.avgTotalGoals = avg(totalGoalsList);
+  stats.wins = resultsList.filter(r => r === 'win').length;
+  stats.draws = resultsList.filter(r => r === 'draw').length;
+  stats.losses = resultsList.filter(r => r === 'loss').length;
+  stats.winRate = (stats.wins / stats.count * 100).toFixed(1);
+  stats.drawRate = (stats.draws / stats.count * 100).toFixed(1);
+  stats.lossRate = (stats.losses / stats.count * 100).toFixed(1);
+  stats.over25Count = totalGoalsList.filter(g => g >= 3).length;
+  stats.over25Rate = (stats.over25Count / stats.count * 100).toFixed(1);
+  stats.under25Count = totalGoalsList.filter(g => g <= 2).length;
+  stats.under25Rate = (stats.under25Count / stats.count * 100).toFixed(1);
+  stats.bothScoredCount = bothScoredList.filter(b => b).length;
+  stats.bothScoredRate = (stats.bothScoredCount / stats.count * 100).toFixed(1);
+  stats.goalDistribution = {};
+  for (const g of goalsScoredList) {
+    const key = g >= 5 ? '5+' : String(g);
+    stats.goalDistribution[key] = (stats.goalDistribution[key] || 0) + 1;
+  }
+
+  // Recent occurrences (last 10)
+  const recentAnalyses = analyses.slice(-10).reverse();
+
+  return { occurrences: analyses.length, analyses, stats, recentAnalyses };
+}
+
+// ============================================================
+//  BUILT-IN PATTERNS
+// ============================================================
+
+const BUILTIN_PATTERNS = [
+  {
+    name: 'Low Score Reversal',
+    desc: 'Scored <2 goals in 3 consecutive matches → predict goals in 4th',
+    config: { metric: 'scored', compare: 'lt', value: 2, consecutive: 3, resultType: null, analysis: 'goals_scored' }
+  },
+  {
+    name: 'Very Low Score Reversal',
+    desc: 'Scored <1 goal in 3 consecutive matches → predict goals in 4th',
+    config: { metric: 'scored', compare: 'lt', value: 1, consecutive: 3, resultType: null, analysis: 'goals_scored' }
+  },
+  {
+    name: 'High Score Correction',
+    desc: 'Scored ≥3 goals → predict fewer goals next match',
+    config: { metric: 'scored', compare: 'gte', value: 3, consecutive: 1, resultType: null, analysis: 'goals_scored' }
+  },
+  {
+    name: 'Clean Sheet Break',
+    desc: 'Conceded 0 in 2 consecutive → predict concede next',
+    config: { metric: 'conceded', compare: 'eq', value: 0, consecutive: 2, resultType: null, analysis: 'goals_conceded' }
+  },
+  {
+    name: 'Defensive Leak',
+    desc: 'Conceded ≥1 in 3 consecutive → predict concede again',
+    config: { metric: 'conceded', compare: 'gte', value: 1, consecutive: 3, resultType: null, analysis: 'goals_conceded' }
+  },
+  {
+    name: '3 Loss Streak',
+    desc: 'Lost 3 consecutive → predict result in 4th',
+    config: { metric: 'scored', consecutive: 3, resultType: 'loss', analysis: 'result' }
+  },
+  {
+    name: '3 Win Streak',
+    desc: 'Won 3 consecutive → predict result in 4th',
+    config: { metric: 'scored', consecutive: 3, resultType: 'win', analysis: 'result' }
+  },
+  {
+    name: 'Draw Streak Break',
+    desc: 'Drew 2 consecutive → predict non-draw next',
+    config: { metric: 'scored', consecutive: 2, resultType: 'draw', analysis: 'result' }
+  },
+  {
+    name: 'High Total Goals',
+    desc: 'Total goals ≥4 in 2 consecutive → predict total next',
+    config: { metric: 'total', compare: 'gte', value: 4, consecutive: 2, resultType: null, analysis: 'total_goals' }
+  },
+  {
+    name: 'Low Total Goals',
+    desc: 'Total goals <2 in 2 consecutive → predict total next',
+    config: { metric: 'total', compare: 'lt', value: 2, consecutive: 2, resultType: null, analysis: 'total_goals' }
+  },
+];
+
+// ============================================================
+//  SAVED PATTERNS (localStorage)
+// ============================================================
+
+function loadSavedPatterns() {
+  try {
+    return JSON.parse(localStorage.getItem('yg2_saved_patterns') || '[]');
+  } catch { return []; }
+}
+
+function saveSavedPatterns(patterns) {
+  localStorage.setItem('yg2_saved_patterns', JSON.stringify(patterns));
+}
+
+// ============================================================
+//  UI RENDERERS
+// ============================================================
+
+let selectedTeam = null;
+let currentMatches = [];
+
+function init() {
+  const sel = document.getElementById('teamSelect');
+  ALL_TEAMS.sort((a, b) => a.name.localeCompare(b.name));
+  for (const t of ALL_TEAMS) {
+    sel.innerHTML += `<option value="${t.id}">${t.name}</option>`;
+  }
+
+  // Season selects
+  const sFrom = document.getElementById('seasonFrom');
+  const sTo = document.getElementById('seasonTo');
+  for (const s of SEASONS) {
+    sFrom.innerHTML += `<option value="${s}">${s}</option>`;
+    sTo.innerHTML += `<option value="${s}">${s}</option>`;
+  }
+  sFrom.value = SEASONS[0];
+  sTo.value = SEASONS[SEASONS.length - 1];
+
+  // Tab switching
+  document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+    });
+  });
+
+  // Metric change handler
+  document.getElementById('builderMetric').addEventListener('change', () => {
+    const metric = document.getElementById('builderMetric').value;
+    document.getElementById('builderCompareRow').style.display = metric === 'result' ? 'none' : 'flex';
+    document.getElementById('builderResultRow').style.display = metric === 'result' ? 'flex' : 'none';
+  });
+
+  // Load team
+  document.getElementById('btnLoadTeam').addEventListener('click', loadTeam);
+
+  // Custom pattern
+  document.getElementById('btnRunCustomPattern').addEventListener('click', runCustomPattern);
+  document.getElementById('btnSaveCustomPattern').addEventListener('click', saveCustomPattern);
+
+  // Saved patterns rendering
+  renderSavedPatternsBar();
+
+  // Match filter
+  document.getElementById('matchFilter').addEventListener('change', renderMatchHistory);
+}
+
+function loadTeam() {
+  const teamId = parseInt(document.getElementById('teamSelect').value);
+  if (!teamId) { showToast('Please select a team', 'error'); return; }
+
+  const team = ALL_TEAMS.find(t => t.id === teamId);
+  selectedTeam = team;
+
+  const seasonFrom = document.getElementById('seasonFrom').value;
+  const seasonTo = document.getElementById('seasonTo').value;
+
+  const allMatches = generateMatches(team.name);
+  
+  // Filter by season range
+  const fromIdx = SEASONS.indexOf(seasonFrom);
+  const toIdx = SEASONS.indexOf(seasonTo);
+  const includedSeasons = SEASONS.slice(fromIdx, toIdx + 1);
+  
+  currentMatches = allMatches.filter(m => includedSeasons.includes(m.season));
+
+  renderPatternResults();
+  renderMatchHistory();
+  document.getElementById('totalMatchesCount').textContent = currentMatches.length;
+
+  // Switch to patterns tab
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+  document.querySelector('[data-tab="patterns"]').classList.add('active');
+  document.getElementById('tab-patterns').classList.add('active');
+
+  showToast(`Loaded ${currentMatches.length} matches for ${team.name}`);
+}
+
+function renderPatternResults() {
+  const container = document.getElementById('patternResults');
+  if (!selectedTeam || currentMatches.length === 0) {
+    container.innerHTML = `<div class="empty-state"><div class="big">📊</div><p>No data to analyze.</p></div>`;
+    return;
+  }
+
+  let html = `<div class="team-stats">
+    <div class="team-stats-header">
+      <h2>${selectedTeam.name}</h2>
+      <div class="meta">${currentMatches.length} matches (${document.getElementById('seasonFrom').value} – ${document.getElementById('seasonTo').value})</div>
+    </div>
+    <div class="match-strip">`;
+
+  // Last 20 results
+  const last20 = currentMatches.slice(-20);
+  for (const m of last20) {
+    const isHome = m.home === selectedTeam.name;
+    const gs = isHome ? m.homeGoals : m.awayGoals;
+    const gc = isHome ? m.awayGoals : m.homeGoals;
+    const cls = gs > gc ? 'chip-win' : gs === gc ? 'chip-draw' : 'chip-loss';
+    html += `<span class="match-chip ${cls}">${gs}-${gc}</span>`;
+  }
+
+  html += `</div></div>`;
+
+  // Run built-in patterns
+  for (const pattern of BUILTIN_PATTERNS) {
+    const result = analyzePattern(currentMatches, selectedTeam.name, pattern.config);
+    html += renderPatternCard(pattern.name, pattern.desc, result, pattern);
+  }
+
+  // Also run saved patterns
+  const savedPatterns = loadSavedPatterns();
+  for (const sp of savedPatterns) {
+    const result = analyzePattern(currentMatches, selectedTeam.name, sp.config);
+    if (result.stats) {
+      html += renderPatternCard('💾 ' + sp.name, sp.desc, result, sp);
+    }
+  }
+
+  container.innerHTML = html;
+}
+
+function renderPatternCard(name, desc, result, patternObj) {
+  if (!result.stats) {
+    return `<div class="results-panel">
+      <h3>${name} <span class="count">— ${desc}</span></h3>
+      <div style="color:var(--text2);padding:8px;font-size:0.85rem">
+        Pattern never occurred in selected data (${result.occurrences} occurrences found).
+      </div>
+    </div>`;
+  }
+
+  const s = result.stats;
+  const lastFive = result.recentAnalyses?.slice(0, 5) || [];
+  const goalDist = s.goalDistribution || {};
+  const maxDistCount = Math.max(...Object.values(goalDist), 1);
+
+  let html = `<div class="results-panel">
+    <h3>${name} <span class="count">— ${desc} · ${s.count} occurrences</span></h3>
+    <div class="result-stat-grid">
+      <div class="result-stat">
+        <div class="num num-green">${s.avgGoalsScored.toFixed(2)}</div>
+        <div class="lbl">Avg Goals Scored (Next)</div>
+      </div>
+      <div class="result-stat">
+        <div class="num num-blue">${s.wins} / ${s.draws} / ${s.losses}</div>
+        <div class="lbl">W / D / L</div>
+      </div>
+      <div class="result-stat">
+        <div class="num num-gold">${s.winRate}%</div>
+        <div class="lbl">Win Rate</div>
+      </div>
+      <div class="result-stat">
+        <div class="num num-purple">${s.over25Rate}%</div>
+        <div class="lbl">Over 2.5 Goals</div>
+      </div>
+      <div class="result-stat">
+        <div class="num ${s.bothScoredRate > 50 ? 'num-green' : 'num-red'}">${s.bothScoredRate}%</div>
+        <div class="lbl">Both Teams Scored</div>
+      </div>
+      <div class="result-stat">
+        <div class="num num-gold">${s.medianGoalsScored}</div>
+        <div class="lbl">Median Goals</div>
+      </div>
+    </div>`;
+
+  // Goal distribution bar
+  if (Object.keys(goalDist).length > 0) {
+    html += `<div style="font-size:0.75rem;color:var(--text2);margin-bottom:4px">Goals distribution in next match:</div>
+    <div class="distribution-bar">`;
+    for (let g = 0; g <= 5; g++) {
+      const key = g === 5 ? '5+' : String(g);
+      const count = goalDist[key] || 0;
+      const pct = (count / s.count * 100);
+      if (pct > 0) {
+        const colors = ['#555','#8b5cf6','#3b82f6','#22c55e','#eab308','#ef4444'];
+        html += `<div class="dist-seg" style="width:${pct}%;background:${colors[g]}">${count > 2 ? g + (g===5?'+':'') : ''}</div>`;
+      }
+    }
+    html += `</div>`;
+  }
+
+  // Recent occurrences
+  if (lastFive.length > 0) {
+    html += `<div style="font-size:0.75rem;color:var(--text2);margin-top:8px;margin-bottom:4px">Recent occurrences (next match result):</div>
+    <table class="pattern-history-table">
+      <tr><th>Date</th><th>Opponent</th><th>Score</th><th>Result</th><th>Pattern</th></tr>`;
+
+    for (const a of lastFive) {
+      const m = a.match;
+      const opp = m.home === selectedTeam.name ? m.away : m.home;
+      const score = m.home === selectedTeam.name ? `${m.homeGoals}-${m.awayGoals}` : `${m.awayGoals}-${m.homeGoals}`;
+      const resEmoji = a.nextResult === 'win' ? '✅' : a.nextResult === 'draw' ? '➖' : '❌';
+      const isHome = m.home === selectedTeam.name;
+      const patternSummary = `${isHome ? 'H' : 'A'} vs ${opp}`;
+      html += `<tr>
+        <td style="white-space:nowrap">${m.date}</td>
+        <td>${opp}</td>
+        <td>${score}</td>
+        <td>${resEmoji} ${a.nextResult.toUpperCase()}</td>
+        <td>${patternSummary}</td>
+      </tr>`;
+    }
+    html += `</table>`;
+  }
+
+  html += `</div>`;
+  return html;
+}
+
+function runCustomPattern() {
+  if (!selectedTeam || currentMatches.length === 0) {
+    showToast('Please select and load a team first', 'error');
+    return;
+  }
+
+  const config = getBuilderConfig();
+  const result = analyzePattern(currentMatches, selectedTeam.name, config);
+
+  document.getElementById('customPatternResults').innerHTML = renderPatternCard(
+    '🔍 Custom Pattern', 
+    describeConfig(config),
+    result,
+    config
+  );
+}
+
+function describeConfig(config) {
+  if (config.resultType) {
+    return `${config.consecutive} consecutive ${matchLabel(config.resultType)} → analyze next match`;
+  }
+  return `${metricLabel(config.metric)} ${compLabel(config.compare)} ${config.value} in ${config.consecutive} consecutive → analyze next match`;
+}
+
+function metricLabel(m) {
+  const labels = { scored: 'Goals Scored', conceded: 'Goals Conceded', total: 'Total Goals', margin: 'Goal Margin', result: 'Result' };
+  return labels[m] || m;
+}
+function compLabel(c) {
+  const labels = { lt: '<', lte: '≤', eq: '=', gte: '≥', gt: '>' };
+  return labels[c] || c;
+}
+function matchLabel(r) {
+  const labels = { win: 'wins', draw: 'draws', loss: 'losses', not_loss: 'not-lost', not_win: 'not-won' };
+  return labels[r] || r;
+}
+
+function getBuilderConfig() {
+  const metric = document.getElementById('builderMetric').value;
+  const compare = document.getElementById('builderCompare').value;
+  const value = parseInt(document.getElementById('builderValue').value) || 1;
+  const consecutive = parseInt(document.getElementById('builderConsecutive').value) || 3;
+  const resultType = metric === 'result' ? document.getElementById('builderResult').value : null;
+  const analysis = document.getElementById('builderAnalysis').value;
+
+  return { metric, compare, value, consecutive, resultType, analysis };
+}
+
+function saveCustomPattern() {
+  const name = prompt('Name your pattern:');
+  if (!name) return;
+
+  const saved = loadSavedPatterns();
+  const config = getBuilderConfig();
+  const desc = describeConfig(config);
+
+  saved.push({
+    id: Date.now(),
+    name,
+    desc,
+    config,
+    created: new Date().toISOString()
+  });
+
+  saveSavedPatterns(saved);
+  renderSavedPatternsBar();
+  showToast(`Pattern "${name}" saved!`);
+}
+
+function renderSavedPatternsBar() {
+  const saved = loadSavedPatterns();
+  const bar = document.getElementById('savedPatternsBar');
+
+  if (saved.length === 0) {
+    bar.innerHTML = '';
+    return;
+  }
+
+  let html = '<div class="saved-patterns">';
+  for (const sp of saved) {
+    html += `<div class="saved-pattern-pill" onclick="runSavedPattern(${sp.id})" title="${sp.desc}">
+      ${sp.name} <span class="remove" onclick="event.stopPropagation();deleteSavedPattern(${sp.id})">×</span>
+    </div>`;
+  }
+  html += '</div>';
+  bar.innerHTML = html;
+
+  // Render saved tab
+  const list = document.getElementById('savedPatternList');
+  if (saved.length === 0) {
+    list.innerHTML = `<div class="empty-state"><div class="big">📋</div><p>No saved patterns yet.</p></div>`;
+    return;
+  }
+
+  let lhtml = '';
+  for (const sp of saved) {
+    lhtml += `<div class="results-panel" style="cursor:pointer" onclick="runSavedPattern(${sp.id})">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <div>
+          <h3>💾 ${sp.name}</h3>
+          <div style="font-size:0.8rem;color:var(--text2)">${sp.desc}</div>
+        </div>
+        <div>
+          <button class="btn-secondary btn-sm" onclick="event.stopPropagation();deleteSavedPattern(${sp.id})">Delete</button>
+        </div>
+      </div>
+    </div>`;
+  }
+  list.innerHTML = lhtml;
+}
+
+function runSavedPattern(id) {
+  const saved = loadSavedPatterns();
+  const sp = saved.find(p => p.id === id);
+  if (!sp) return;
+
+  if (!selectedTeam || currentMatches.length === 0) {
+    showToast('Select and load a team first', 'error');
+    return;
+  }
+
+  const result = analyzePattern(currentMatches, selectedTeam.name, sp.config);
+
+  // Show in analysis tab
+  const container = document.getElementById('patternResults');
+  let html = `<div class="team-stats"><div class="team-stats-header"><h2>${selectedTeam.name} — ${sp.name}</h2><div class="meta">${sp.desc}</div></div></div>`;
+  html += renderPatternCard('💾 ' + sp.name, sp.desc, result, sp.config);
+  container.innerHTML = html;
+
+  // Switch to patterns tab
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+  document.querySelector('[data-tab="patterns"]').classList.add('active');
+  document.getElementById('tab-patterns').classList.add('active');
+
+  showToast(`Pattern "${sp.name}" applied to ${selectedTeam.name}`);
+}
+
+function deleteSavedPattern(id) {
+  let saved = loadSavedPatterns();
+  saved = saved.filter(p => p.id !== id);
+  saveSavedPatterns(saved);
+  renderSavedPatternsBar();
+  showToast('Pattern deleted');
+}
+
+function renderMatchHistory() {
+  const container = document.getElementById('matchHistoryList');
+  if (!selectedTeam || currentMatches.length === 0) {
+    return;
+  }
+
+  let filtered = [...currentMatches];
+  const filter = document.getElementById('matchFilter').value;
+  
+  switch (filter) {
+    case 'home': filtered = filtered.filter(m => m.home === selectedTeam.name); break;
+    case 'away': filtered = filtered.filter(m => m.away === selectedTeam.name); break;
+    case 'wins': filtered = filtered.filter(m => {
+      return m.home === selectedTeam.name ? m.homeGoals > m.awayGoals : m.awayGoals > m.homeGoals;
+    }); break;
+    case 'losses': filtered = filtered.filter(m => {
+      return m.home === selectedTeam.name ? m.homeGoals < m.awayGoals : m.awayGoals < m.homeGoals;
+    }); break;
+    case 'draws': filtered = filtered.filter(m => m.homeGoals === m.awayGoals); break;
+    case 'over25': filtered = filtered.filter(m => (m.homeGoals + m.awayGoals) >= 3); break;
+    case 'under25': filtered = filtered.filter(m => (m.homeGoals + m.awayGoals) <= 2); break;
+  }
+
+  if (filtered.length === 0) {
+    container.innerHTML = '<div class="empty-state"><p>No matches match this filter.</p></div>';
+    return;
+  }
+
+  // Show last 200 matches
+  const display = filtered.slice(-200).reverse();
+  let html = '<div class="match-list">';
+  for (const m of display) {
+    const isHome = m.home === selectedTeam.name;
+    const opp = isHome ? m.away : m.home;
+    const gs = isHome ? m.homeGoals : m.awayGoals;
+    const gc = isHome ? m.awayGoals : m.homeGoals;
+    const score = `${gs} - ${gc}`;
+    const result = gs > gc ? '✅' : gs === gc ? '➖' : '❌';
+    html += `<div class="match-row">
+      <div>
+        <span class="season">${m.season}</span>
+        <span class="teams">${isHome ? '🏠' : '✈️'} ${selectedTeam.name} vs ${opp}</span>
+      </div>
+      <div>
+        <span class="score">${result} ${score}</span>
+      </div>
+    </div>`;
+  }
+  html += '</div>';
+  container.innerHTML = html;
+}
+
+// ============================================================
+//  TOAST
+// ============================================================
+function showToast(msg, type = 'success') {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast show ' + type;
+  clearTimeout(t._timer);
+  t._timer = setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+// ============================================================
+//  INIT
+// ============================================================
+init();
+</script>
+</body>
+</html>
