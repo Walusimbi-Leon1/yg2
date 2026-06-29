@@ -137,3 +137,4 @@ sessions/skills-prompts/
 # ── Chromium runtime data (Railway) ──
 browser/config/chromium/
 .openclaw-state/
+lrb/
