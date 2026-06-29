@@ -77,6 +77,14 @@ Add whatever helps you do your job. This is your cheat sheet.
 - **Disk:** 95GB (24GB free)
 - **Access:** `tailscale ssh 100.118.225.7`
 
+### 4e1b5b1751fe (new beast!)
+- **Tailscale IP:** 100.108.212.58
+- **Host:** Debian 12 (bookworm)
+- **CPU:** **48 cores** (AMD EPYC 9655)
+- **RAM:** **330GB** (169GB available)
+- **Disk:** **2.9T** (2.0T free)
+- **Access:** `tailscale ssh 100.108.212.58`
+
 ## Railway (current host)
 
 - **Host:** Railway Debian 12 container (c7149d1cf604)
